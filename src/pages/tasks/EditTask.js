@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { startOfWeek } from 'date-fns';
-import { differenceInHours } from 'date-fns';
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
@@ -19,9 +16,10 @@ function EditTask() {
   const [postData, setPostData] = useState({
     title: "",
     description: "",
-    start_date: new Date(),
-    end_date: new Date(),
+    start_date: new Date(), // Initialize as Date object
+    end_date: new Date(), // Initialize as Date object
   });
+
   const { title, description, start_date, end_date } = postData;
 
   const history = useHistory();
@@ -37,8 +35,8 @@ function EditTask() {
         setPostData({
           title,
           description,
-          start_date: moment(start_date, "DD MMM YYYY").toDate(),
-          end_date: moment(end_date, "DD MMM YYYY").toDate(),
+          start_date: moment(start_date, "DD MMM YYYY").toDate(), // Adjust based on your date format
+          end_date: moment(end_date, "DD MMM YYYY").toDate(), // Adjust based on your date format
         });
       } catch (err) {
         console.log(err);
@@ -68,8 +66,8 @@ function EditTask() {
 
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("start_date", moment(start_date).format("DD MMM YYYY"));
-    formData.append("end_date", moment(end_date).format("DD MMM YYYY"));
+    formData.append("start_date", moment(start_date).format("YYYY-MM-DD")); // Format for backend
+    formData.append("end_date", moment(end_date).format("YYYY-MM-DD")); // Format for backend
 
     try {
       await axiosReq.put(`/tasks/${id}`, formData);
