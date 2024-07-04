@@ -1,13 +1,22 @@
 // src/components/TaskList.js
 import React, { useState, useEffect } from "react";
+
 import axios from "axios";
 import styles from "../styles/TaskDisplay.module.css";
 import { Button, Card } from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
+
+
 
 const TaskDisplay = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const history = useHistory();
+
+  const handleEditClick = (taskId) => {
+    history.push(`/tasks/${taskId}/edit`);
+  };
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -47,7 +56,7 @@ const TaskDisplay = () => {
             <Card.Text>Completed: {task.completed ? "Yes" : "No"}</Card.Text>
             <Card.Text>Priority: {task.priority}</Card.Text>
             <Card.Text>Category: {task.category}</Card.Text>
-            <Button variant="primary">Go somewhere</Button>
+            <Button onClick={() => handleEditClick(task.id)}> Edit </Button>            
           </Card.Body>
         </Card>
       ))}
