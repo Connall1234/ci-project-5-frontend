@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../styles/TaskDisplay.module.css";
+import { Button, Card } from "react-bootstrap";
 
 const TaskDisplay = () => {
   const [tasks, setTasks] = useState([]);
@@ -35,24 +36,21 @@ const TaskDisplay = () => {
   }
 
   return (
-    <div>
-      <h1>Task List</h1>
-      <ul>
-        {tasks.map((task) => (
-          <li
-            key={task.id}
-            className={`task ${task.completed ? "completed" : ""}`}
-          >
-            <h2>{task.title}</h2>
-            <p>{task.description}</p>
-            <p>Start Date: {new Date(task.start_date).toLocaleString()}</p>
-            <p>End Date: {new Date(task.end_date).toLocaleString()}</p>
-            <p>Completed: {task.completed ? "Yes" : "No"}</p>
-            <p>Priority: {task.priority}</p>
-            <p>Category: {task.category}</p>
-          </li>
-        ))}
-      </ul>
+    <div className={styles.taskList}>
+      {tasks.map((task) => (
+        <Card style={{ width: '18rem' }} key={task.id} className={`task ${task.completed ? "completed" : ""}`}>
+          <Card.Body>
+            <Card.Title>{task.title}</Card.Title>
+            <Card.Text>{task.description}</Card.Text>
+            <Card.Text>Start Date: {new Date(task.start_date).toLocaleString()}</Card.Text>
+            <Card.Text>End Date: {new Date(task.end_date).toLocaleString()}</Card.Text>
+            <Card.Text>Completed: {task.completed ? "Yes" : "No"}</Card.Text>
+            <Card.Text>Priority: {task.priority}</Card.Text>
+            <Card.Text>Category: {task.category}</Card.Text>
+            <Button variant="primary">Go somewhere</Button>
+          </Card.Body>
+        </Card>
+      ))}
     </div>
   );
 };
