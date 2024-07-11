@@ -11,19 +11,19 @@ import EditTask from "./pages/tasks/EditTask";
 
 function App() {
   return (
-        <div className={styles.App}>
-          <NavBar />
-          <Container className={styles.Main}>
-            <Switch>
-              <Route exact path="/" render={() => <HomePage />} />
-              <Route exact path="/signin" render={() => <SignInForm />} />
-              <Route exact path="/signup" render={() => <SignUpForm />} />
-              <Route exact path="/tasks/create" render={() => <CreateTask />} />
-              <Route exact path="/tasks/:id/edit" render={() => <EditTask />} />
-              <Route render={() => <p>Page not found!</p>} />
-            </Switch>
-          </Container>
-        </div>
+    <div className={styles.App}>
+      <NavBar />
+      <Container className={styles.Main}>
+        <Switch>
+          <Route exact path="/" render={() => <HomePage />} />
+          <Route exact path="/signin" render={() => <SignInForm />} />
+          <Route exact path="/signup" render={() => <SignUpForm />} />
+          <Route exact path="/tasks/create" render={() => <CreateTask />} />
+          <Route exact path="/tasks/:id/edit" render={() => <EditTask />} /> 
+          <Route render={() => <p>Page not found!</p>} />
+        </Switch>
+      </Container>
+    </div>
   );
 }
 

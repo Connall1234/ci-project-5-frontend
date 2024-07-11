@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-//import { DatePicker } from "react-datepicker";
-//import "react-datepicker/dist/react-datepicker.css";
-import { moment } from "moment";
+import DatePicker from "react-datepicker"; // Default import for DatePicker
+import "react-datepicker/dist/react-datepicker.css"; // Ensure DatePicker CSS is included
+import moment from "moment"; // Default import for moment
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
-import startOfWeek from 'date-fns/startOfWeek';
-
-
 import { useHistory, useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 
