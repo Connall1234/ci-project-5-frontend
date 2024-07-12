@@ -1,12 +1,10 @@
 // src/components/TaskList.js
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
 import styles from "../styles/TaskDisplay.module.css";
 import { Button, Card } from "react-bootstrap";
 import { useHistory } from 'react-router-dom';
-
-
+import { axiosReq } from "../api/axiosDefaults";
 
 const TaskDisplay = () => {
   const [tasks, setTasks] = useState([]);
@@ -16,6 +14,16 @@ const TaskDisplay = () => {
 
   const handleEditClick = (taskId) => {
     history.push(`/tasks/${taskId}/edit`);
+  };
+
+  const handleDeleteClick = async (taskId) => {
+    try {
+      await axiosReq.delete(`/tasks/${taskId}`);
+      // Filter out the deleted task from the state
+      setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+    } catch (err) {
+      setError(err);
+    }
   };
 
   useEffect(() => {
@@ -56,7 +64,8 @@ const TaskDisplay = () => {
             <Card.Text>Completed: {task.completed ? "Yes" : "No"}</Card.Text>
             <Card.Text>Priority: {task.priority}</Card.Text>
             <Card.Text>Category: {task.category}</Card.Text>
-            <Button onClick={() => handleEditClick(task.id)}> Edit </Button>            
+            <Button onClick={() => handleEditClick(task.id)}>Edit</Button> 
+            <Button onClick={() => handleDeleteClick(task.id)}>Delete</Button>            
           </Card.Body>
         </Card>
       ))}

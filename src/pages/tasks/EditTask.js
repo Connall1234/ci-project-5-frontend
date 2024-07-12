@@ -71,7 +71,7 @@ function EditTask() {
 
     try {
       await axiosReq.put(`/tasks/${id}`, formData);
-      history.push(`/tasks/${id}`);
+      history.push("/");
     } catch (err) {
       console.log(err);
       if (err.response?.status !== 401) {
