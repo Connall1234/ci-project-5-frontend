@@ -1,0 +1,56 @@
+/* Calendar.module.css */
+
+.calendar {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .daysOfWeek {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .dayOfWeek {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .daysGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+  }
+  
+  .day {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f0f0f0;
+    position: relative;
+  }
+  
+  .date {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .tasks {
+    margin-top: 5px;
+  }
+  
+  .currentDay {
+    background-color: #c1e1c5; /* Light green background for the current day */
+  }
+  

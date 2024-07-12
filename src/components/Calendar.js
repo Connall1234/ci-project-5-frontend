@@ -1,6 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, addMonths, subMonths } from 'date-fns';
-import styles from '../styles/Calendar.module.css'; // Make sure to create appropriate styles
+import React, { useState } from 'react';
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  getDay,
+  addMonths,
+  subMonths,
+  isSameDay
+} from 'date-fns';
+import styles from '../styles/Calendar.module.css'; // Ensure you have appropriate styles
 
 const Calendar = ({ tasks }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -27,24 +36,45 @@ const Calendar = ({ tasks }) => {
       ));
   };
 
+  const renderDaysOfWeek = () => {
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    return (
+      <div className={styles.daysOfWeek}>
+        {daysOfWeek.map((day, index) => (
+          <div key={index} className={styles.dayOfWeek}>
+            {day}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   const renderDays = () => {
     const days = [];
     const startDay = getDay(startDate);
 
+    // Fill empty days before the start of the month
     for (let i = 0; i < startDay; i++) {
       days.push(<div key={`empty-${i}`} className={styles.emptyDay} />);
     }
 
+    // Render days of the month
     daysInMonth.forEach((date, index) => {
+      const isCurrentDay = isSameDay(date, new Date());
       days.push(
-        <div key={index} className={styles.day}>
+        <div key={index} className={`${styles.day} ${isCurrentDay ? styles.currentDay : ''}`}>
           <div className={styles.date}>{format(date, 'd')}</div>
           <div className={styles.tasks}>{renderTasksForDay(date)}</div>
         </div>
       );
     });
 
-    return days;
+    return (
+      <div className={styles.daysGrid}>
+        {days}
+      </div>
+    );
   };
 
   return (
@@ -54,9 +84,8 @@ const Calendar = ({ tasks }) => {
         <div>{format(currentMonth, 'MMMM yyyy')}</div>
         <button onClick={handleNextMonth}>Next</button>
       </div>
-      <div className={styles.daysGrid}>
-        {renderDays()}
-      </div>
+      {renderDaysOfWeek()}
+      {renderDays()}
     </div>
   );
 };
