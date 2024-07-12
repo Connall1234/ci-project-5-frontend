@@ -1,31 +1,31 @@
-import React, { useState } from "react";
-
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Alert from "react-bootstrap/Alert";
+import React, { useState, useEffect } from "react";
+import { Form, Button, Row, Col, Container, Alert } from "react-bootstrap";
 import axios from "axios";
-
-
-import { useHistory } from "react-router";
-//import { axiosReq } from "../../api/axiosDefaults";
+import { useHistory, useLocation } from "react-router-dom";
 
 function CreateTask() {
   const [errors, setErrors] = useState({});
-
   const [postData, setPostData] = useState({
     title: "",
     description: "",
     start_date: "",
     end_date: "",
-
-
   });
-  const { title, description, start_date, end_date } = postData;
 
   const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    
+    if (location.state && location.state.date) {
+      setPostData((prevData) => ({
+        ...prevData,
+        start_date: location.state.date,
+      }));
+    }
+  }, [location.state]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const { title, description, start_date, end_date } = postData;
 
   const handleChange = (event) => {
     setPostData({
@@ -33,8 +33,6 @@ function CreateTask() {
       [event.target.name]: event.target.value,
     });
   };
-
- 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,19 +43,12 @@ function CreateTask() {
     formData.append("start_date", start_date);
     formData.append("end_date", end_date);
 
-
     try {
-      //const { data } = 
-      //await axiosReq.post("/tasks/", formData);
       await axios.post("https://project-5-backend-api-connall-3eb143768597.herokuapp.com/tasks/", formData);
 
-      
       history.push('/');
-      console.log(formData)
-      //history.push(`/tasks/${data.id}`);
     } catch (err) {
-        console.log(err.response.data); // Correct way to access error response data
-        console.log("Error occurred while creating task");
+      console.log(err.response.data);
 
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
@@ -85,7 +76,7 @@ function CreateTask() {
       <Form.Group>
         <Form.Label>Description</Form.Label>
         <Form.Control
-          type="textarea"
+          as="textarea"
           rows={6}
           name="description"
           value={description}
@@ -96,13 +87,11 @@ function CreateTask() {
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>
-
       ))}
       <Form.Group>
         <Form.Label>Start Date</Form.Label>
         <Form.Control
           type="date"
-          rows={6}
           name="start_date"
           value={start_date}
           onChange={handleChange}
@@ -112,13 +101,11 @@ function CreateTask() {
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>
-
       ))}
       <Form.Group>
         <Form.Label>End Date</Form.Label>
         <Form.Control
           type="date"
-          rows={6}
           name="end_date"
           value={end_date}
           onChange={handleChange}
@@ -128,19 +115,10 @@ function CreateTask() {
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>
-
       ))}
 
-      <Button
-        
-        onClick={() => history.goBack()}
-      >
-        cancel
-      </Button>
-      <Button type="submit">
-        create
-      </Button>
-
+      <Button onClick={() => history.goBack()}>Cancel</Button>
+      <Button type="submit">Create</Button>
     </div>
   );
 
@@ -148,11 +126,7 @@ function CreateTask() {
     <Form onSubmit={handleSubmit}>
       <Row>
         <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
-          <Container
-            className={` d-flex flex-column justify-content-center`}
-          >
-  
-
+          <Container className="d-flex flex-column justify-content-center">
             <div className="d-md-none">{textFields}</div>
           </Container>
         </Col>

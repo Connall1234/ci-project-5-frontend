@@ -2,7 +2,7 @@
 
 .calendar {
     font-family: Arial, sans-serif;
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
     border: 1px solid #ccc;
     padding: 20px;
@@ -52,5 +52,11 @@
   
   .currentDay {
     background-color: #c1e1c5; /* Light green background for the current day */
+  }
+  
+  @media (max-width: 768px) {
+    .daysGrid {
+      grid-template-columns: repeat(7, minmax(0, 1fr)); /* Adjust grid columns for smaller screens */
+    }
   }
   

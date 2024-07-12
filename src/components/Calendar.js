@@ -10,9 +10,11 @@ import {
   isSameDay
 } from 'date-fns';
 import styles from '../styles/Calendar.module.css'; // Ensure you have appropriate styles
+import DayView from './DayView'; // Import your DayView component
 
 const Calendar = ({ tasks }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(null);
 
   const startDate = startOfMonth(currentMonth);
   const endDate = endOfMonth(currentMonth);
@@ -20,10 +22,16 @@ const Calendar = ({ tasks }) => {
 
   const handlePrevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
+    setSelectedDay(null); // Reset selected day when changing month
   };
 
   const handleNextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
+    setSelectedDay(null); // Reset selected day when changing month
+  };
+
+  const handleDayClick = (date) => {
+    setSelectedDay(date);
   };
 
   const renderTasksForDay = (date) => {
@@ -63,7 +71,11 @@ const Calendar = ({ tasks }) => {
     daysInMonth.forEach((date, index) => {
       const isCurrentDay = isSameDay(date, new Date());
       days.push(
-        <div key={index} className={`${styles.day} ${isCurrentDay ? styles.currentDay : ''}`}>
+        <div
+          key={index}
+          className={`${styles.day} ${isCurrentDay ? styles.currentDay : ''}`}
+          onClick={() => handleDayClick(date)}
+        >
           <div className={styles.date}>{format(date, 'd')}</div>
           <div className={styles.tasks}>{renderTasksForDay(date)}</div>
         </div>
@@ -86,6 +98,7 @@ const Calendar = ({ tasks }) => {
       </div>
       {renderDaysOfWeek()}
       {renderDays()}
+      {selectedDay && <DayView date={selectedDay} tasks={tasks} />}
     </div>
   );
 };
