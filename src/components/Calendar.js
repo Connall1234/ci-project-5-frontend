@@ -9,8 +9,8 @@ import {
   subMonths,
   isSameDay
 } from 'date-fns';
-import styles from '../styles/Calendar.module.css'; // Ensure you have appropriate styles
-import DayView from './DayView'; // Import your DayView component
+import styles from '../styles/Calendar.module.css'; 
+import DayView from './DayView'; 
 
 const Calendar = ({ tasks }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -22,12 +22,12 @@ const Calendar = ({ tasks }) => {
 
   const handlePrevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
-    setSelectedDay(null); // Reset selected day when changing month
+    setSelectedDay(null); // reset when change month 
   };
 
   const handleNextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
-    setSelectedDay(null); // Reset selected day when changing month
+    setSelectedDay(null); // handle the next month 
   };
 
   const handleDayClick = (date) => {
@@ -35,13 +35,41 @@ const Calendar = ({ tasks }) => {
   };
 
   const renderTasksForDay = (date) => {
-    return tasks
-      .filter(task => format(new Date(task.start_date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'))
-      .map(task => (
-        <div key={task.id} className={styles.task}>
-          {task.title}
-        </div>
-      ));
+    // get specific dates 
+    const tasksForDay = tasks.filter(task => isSameDay(new Date(task.start_date), date));
+
+    // show day if no tasks are there 
+    if (tasksForDay.length === 0) {
+      return null;
+    }
+
+    // add same tasks to sane day 
+    const taskCounts = tasksForDay.reduce((counts, task) => {
+      const taskDate = format(new Date(task.start_date), 'yyyy-MM-dd');
+      counts[taskDate] = (counts[taskDate] || []);
+      counts[taskDate].push(task);
+      return counts;
+    }, {});
+
+    // show how many tasks are on a day 
+    return (
+      <div className={styles.taskList}>
+        {Object.keys(taskCounts).map((taskDate, index) => {
+          const tasks = taskCounts[taskDate];
+          const taskElements = tasks.map((task, i) => (
+            <div key={task.id} className={styles.task}>
+              {i === 0 ? task.title : null}
+              {i === 0 && tasks.length > 1 ? <span className={styles.taskCount}>+{tasks.length - 1}</span> : null}
+            </div>
+          ));
+          return (
+            <div key={index}>
+              {taskElements}
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   const renderDaysOfWeek = () => {
@@ -62,12 +90,12 @@ const Calendar = ({ tasks }) => {
     const days = [];
     const startDay = getDay(startDate);
 
-    // Fill empty days before the start of the month
+    // fill the empty days before month begin
     for (let i = 0; i < startDay; i++) {
       days.push(<div key={`empty-${i}`} className={styles.emptyDay} />);
     }
 
-    // Render days of the month
+    // for days 
     daysInMonth.forEach((date, index) => {
       const isCurrentDay = isSameDay(date, new Date());
       days.push(

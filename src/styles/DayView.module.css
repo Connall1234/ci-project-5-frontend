@@ -1,43 +1,62 @@
+/* src/styles/DayView.module.css */
+
 .dayView {
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin: 10px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-  }
-  
-  .dayView h2 {
-    margin-bottom: 10px;
-  }
-  
-  .tasks {
-    margin-top: 10px;
-  }
-  
-  .tasks h3 {
-    margin-bottom: 5px;
-  }
-  
-  .tasks ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .tasks li {
-    margin-bottom: 5px;
-  }
-  
-  button {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+  padding: 20px;
+}
+
+.tasks {
+  margin-top: 20px;
+}
+
+.taskList {
+  list-style: none;
+  padding: 0;
+}
+
+.taskBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+}
+
+.taskActions button {
+  margin-left: 5px;
+}
+
+.priority-L {
+  background-color: green;
+}
+
+.priority-M {
+  background-color: yellow;
+  color: black; /* Ensure text is readable on yellow background */
+}
+
+.priority-H {
+  background-color: red;
+}
+
+.confirmationDialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.confirmationDialog p {
+  margin-bottom: 20px;
+}
+
+.confirmationDialog button {
+  margin: 0 10px;
+}

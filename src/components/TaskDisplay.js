@@ -1,4 +1,3 @@
-// src/components/TaskList.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../styles/TaskDisplay.module.css";
@@ -19,7 +18,7 @@ const TaskDisplay = () => {
   const handleDeleteClick = async (taskId) => {
     try {
       await axiosReq.delete(`/tasks/${taskId}`);
-      // Filter out the deleted task from the state
+      // filter out the deleted task
       setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
     } catch (err) {
       setError(err);
@@ -33,7 +32,7 @@ const TaskDisplay = () => {
           "https://project-5-backend-api-connall-3eb143768597.herokuapp.com/tasks/"
         );
         console.log("API response:", response.data);
-        setTasks(response.data.results); // Set tasks to the results array
+        setTasks(response.data.results); 
       } catch (err) {
         setError(err);
       } finally {

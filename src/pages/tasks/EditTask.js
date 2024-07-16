@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker"; // Default import for DatePicker
-import "react-datepicker/dist/react-datepicker.css"; // Ensure DatePicker CSS is included
-import moment from "moment"; // Default import for moment
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 
-//Edit task 
 function EditTask() {
   const [errors, setErrors] = useState({});
+  const [isPastDate, setIsPastDate] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const [postData, setPostData] = useState({
     title: "",
     description: "",
-    start_date: new Date(), // Initialize as Date object
-    end_date: new Date(), // Initialize as Date object
+    start_date: new Date(),
+    end_date: new Date(),
+    priority: "M", // Default priority
+    category: "O", // Default category
   });
 
-  const { title, description, start_date, end_date } = postData;
-
+  const { title, description, start_date, end_date, priority, category } = postData;
   const history = useHistory();
   const { id } = useParams();
 
@@ -29,15 +31,21 @@ function EditTask() {
     const handleMount = async () => {
       try {
         const { data } = await axiosReq.get(`/tasks/${id}`);
-        const { title, description, start_date, end_date } = data;
+        const { title, description, start_date, end_date, priority, category } = data;
 
-        // Convert the date strings from the backend to Date objects
         setPostData({
           title,
           description,
-          start_date: moment(start_date, "DD MMM YYYY").toDate(), // Adjust based on your date format
-          end_date: moment(end_date, "DD MMM YYYY").toDate(), // Adjust based on your date format
+          start_date: moment(start_date).toDate(),
+          end_date: moment(end_date).toDate(),
+          priority,
+          category,
         });
+
+        // Check if start_date is the past 
+        const today = moment().startOf("day");
+        const taskStartDate = moment(start_date).startOf("day");
+        setIsPastDate(taskStartDate.isBefore(today));
       } catch (err) {
         console.log(err);
       }
@@ -58,16 +66,33 @@ function EditTask() {
       ...postData,
       [name]: date,
     });
+
+    // Check if start_date is in the past
+    const today = moment().startOf("day");
+    const taskStartDate = moment(date).startOf("day");
+    setIsPastDate(taskStartDate.isBefore(today));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
 
+    // mandatory fields
+    if (!title || !start_date || !end_date) {
+      setErrors({ general: ["Please fill in all required fields."] });
+      return;
+    }
+
+    setShowConfirmation(true); // confirmation before submitting
+  };
+
+  const confirmUpdate = async () => {
+    const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("start_date", moment(start_date).format("YYYY-MM-DD")); // Format for backend
-    formData.append("end_date", moment(end_date).format("YYYY-MM-DD")); // Format for backend
+    formData.append("start_date", moment(start_date).format("YYYY-MM-DD"));
+    formData.append("end_date", moment(end_date).format("YYYY-MM-DD"));
+    formData.append("priority", priority);
+    formData.append("category", category);
 
     try {
       await axiosReq.put(`/tasks/${id}`, formData);
@@ -121,6 +146,11 @@ function EditTask() {
             onChange={(date) => handleDateChange(date, "start_date")}
             dateFormat="yyyy-MM-dd"
           />
+          {isPastDate && (
+            <Alert variant="warning" className="mt-2">
+              This is a task in the past. Are you sure you want to update it?
+            </Alert>
+          )}
         </Form.Group>
         {errors?.start_date?.map((message, idx) => (
           <Alert variant="warning" key={idx}>
@@ -142,8 +172,67 @@ function EditTask() {
           </Alert>
         ))}
 
+        <Form.Group>
+          <Form.Label>Priority</Form.Label>
+          <Form.Control
+            as="select"
+            name="priority"
+            value={priority}
+            onChange={handleChange}
+          >
+            <option value="L">Low</option>
+            <option value="M">Medium</option>
+            <option value="H">High</option>
+          </Form.Control>
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Category</Form.Label>
+          <Form.Control
+            as="select"
+            name="category"
+            value={category}
+            onChange={handleChange}
+          >
+            <option value="W">Work</option>
+            <option value="P">Personal</option>
+            <option value="O">Other</option>
+          </Form.Control>
+        </Form.Group>
+
+        {errors?.general?.map((message, idx) => (
+          <Alert variant="warning" key={idx}>
+            {message}
+          </Alert>
+        ))}
+
         <Button onClick={() => history.goBack()}>Cancel</Button>
         <Button type="submit">Update</Button>
+
+        {showConfirmation && (
+          <div className="mt-3">
+            <Alert variant="warning">
+              Are you sure you want to update this task?
+              <Button
+                className="ml-2"
+                variant="warning"
+                onClick={() => {
+                  setShowConfirmation(false);
+                  confirmUpdate();
+                }}
+              >
+                Yes
+              </Button>
+              <Button
+                className="ml-2"
+                variant="secondary"
+                onClick={() => setShowConfirmation(false)}
+              >
+                No
+              </Button>
+            </Alert>
+          </div>
+        )}
       </Container>
     </Form>
   );
