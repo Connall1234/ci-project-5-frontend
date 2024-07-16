@@ -4,6 +4,7 @@ import styles from "../styles/TaskDisplay.module.css";
 import { Button, Card } from "react-bootstrap";
 import { useHistory } from 'react-router-dom';
 import { axiosReq } from "../api/axiosDefaults";
+import { format } from 'date-fns'; // Import format function from date-fns
 
 const TaskDisplay = () => {
   const [tasks, setTasks] = useState([]);
@@ -18,7 +19,7 @@ const TaskDisplay = () => {
   const handleDeleteClick = async (taskId) => {
     try {
       await axiosReq.delete(`/tasks/${taskId}`);
-      // filter out the deleted task
+      // Filter out the deleted task
       setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
     } catch (err) {
       setError(err);
@@ -58,11 +59,19 @@ const TaskDisplay = () => {
           <Card.Body>
             <Card.Title>{task.title}</Card.Title>
             <Card.Text>{task.description}</Card.Text>
-            <Card.Text>Start Date: {new Date(task.start_date).toLocaleString()}</Card.Text>
-            <Card.Text>End Date: {new Date(task.end_date).toLocaleString()}</Card.Text>
+            
+            {/* Display Date and Time separately for Start Date */}
+            <Card.Text>Date: {format(new Date(task.start_date), 'MMMM d, yyyy')}</Card.Text>
+            <Card.Text>Time: {format(new Date(task.start_date), 'hh:mm a')}</Card.Text>
+
+            {/* Display Date and Time separately for End Date */}
+            <Card.Text>Date: {format(new Date(task.end_date), 'MMMM d, yyyy')}</Card.Text>
+            <Card.Text>Time: {format(new Date(task.end_date), 'hh:mm a')}</Card.Text>
+
             <Card.Text>Completed: {task.completed ? "Yes" : "No"}</Card.Text>
             <Card.Text>Priority: {task.priority}</Card.Text>
             <Card.Text>Category: {task.category}</Card.Text>
+            
             <Button onClick={() => handleEditClick(task.id)}>Edit</Button> 
             <Button onClick={() => handleDeleteClick(task.id)}>Delete</Button>            
           </Card.Body>

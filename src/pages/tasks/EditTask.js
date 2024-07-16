@@ -42,7 +42,7 @@ function EditTask() {
           category,
         });
 
-        // Check if start_date is the past 
+        // Check if start_date is in the past (excluding today)
         const today = moment().startOf("day");
         const taskStartDate = moment(start_date).startOf("day");
         setIsPastDate(taskStartDate.isBefore(today));
@@ -67,7 +67,7 @@ function EditTask() {
       [name]: date,
     });
 
-    // Check if start_date is in the past
+    // Check if start_date is in the past when date changes
     const today = moment().startOf("day");
     const taskStartDate = moment(date).startOf("day");
     setIsPastDate(taskStartDate.isBefore(today));
@@ -76,21 +76,21 @@ function EditTask() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // mandatory fields
+    // Validate mandatory fields
     if (!title || !start_date || !end_date) {
       setErrors({ general: ["Please fill in all required fields."] });
       return;
     }
 
-    setShowConfirmation(true); // confirmation before submitting
+    setShowConfirmation(true); // Show confirmation dialog before submitting
   };
 
   const confirmUpdate = async () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("start_date", moment(start_date).format("YYYY-MM-DD"));
-    formData.append("end_date", moment(end_date).format("YYYY-MM-DD"));
+    formData.append("start_date", moment(start_date).format("YYYY-MM-DD HH:mm:ss")); // Format for backend with time
+    formData.append("end_date", moment(end_date).format("YYYY-MM-DD HH:mm:ss")); // Format for backend with time
     formData.append("priority", priority);
     formData.append("category", category);
 
@@ -140,11 +140,13 @@ function EditTask() {
         ))}
 
         <Form.Group>
-          <Form.Label>Start Date</Form.Label>
+          <Form.Label>Start Date & Time</Form.Label>
           <DatePicker
             selected={start_date}
             onChange={(date) => handleDateChange(date, "start_date")}
-            dateFormat="yyyy-MM-dd"
+            dateFormat="yyyy-MM-dd HH:mm"
+            showTimeSelect
+            timeFormat="HH:mm"
           />
           {isPastDate && (
             <Alert variant="warning" className="mt-2">
@@ -159,11 +161,13 @@ function EditTask() {
         ))}
 
         <Form.Group>
-          <Form.Label>End Date</Form.Label>
+          <Form.Label>End Date & Time</Form.Label>
           <DatePicker
             selected={end_date}
             onChange={(date) => handleDateChange(date, "end_date")}
-            dateFormat="yyyy-MM-dd"
+            dateFormat="yyyy-MM-dd HH:mm"
+            showTimeSelect
+            timeFormat="HH:mm"
           />
         </Form.Group>
         {errors?.end_date?.map((message, idx) => (
