@@ -6,17 +6,16 @@ import { axiosReq } from '../api/axiosDefaults';
 
 const DayView = ({ date, tasks }) => {
   const history = useHistory();
-  const [tasksState, setTasksState] = useState(tasks); // for tasks
+  const [tasksState, setTasksState] = useState(tasks);
   const [taskToDelete, setTaskToDelete] = useState(null);
-  const [updatingTask, setUpdatingTask] = useState(null); // track which task is currently being updated
-  const [taskToComplete, setTaskToComplete] = useState(null); // track task completion confirmation
-  const [taskToIncomplete, setTaskToIncomplete] = useState(null); // track task incompletion confirmation
+  const [updatingTask, setUpdatingTask] = useState(null);
+  const [taskToComplete, setTaskToComplete] = useState(null);
+  const [taskToIncomplete, setTaskToIncomplete] = useState(null);
 
   const formattedDate = format(date, 'MMMM d, yyyy');
 
-  // get tasks initially or when date changes
   useEffect(() => {
-    setTasksState(tasks); // change tasksState whenever tasks prop changes
+    setTasksState(tasks);
   }, [tasks]);
 
   const handleAddTask = () => {
@@ -37,7 +36,6 @@ const DayView = ({ date, tasks }) => {
   const handleDeleteTask = async () => {
     try {
       await axiosReq.delete(`/tasks/${taskToDelete.id}`);
-      // Refresh tasks after deletion
       setTaskToDelete(null);
       setTasksState(prevTasks => prevTasks.filter(task => task.id !== taskToDelete.id));
       console.log('Task deleted successfully');
@@ -49,22 +47,20 @@ const DayView = ({ date, tasks }) => {
   const handleCompleteTask = async (task) => {
     try {
       setUpdatingTask(task);
-  
+
       const updatedTask = {
         id: task.id,
         title: task.title,
         description: task.description,
         start_date: format(new Date(task.start_date), 'yyyy-MM-dd'),
-        end_date: format(new Date(task.end_date), 'yyyy-MM-dd'),
         completed: !task.completed
       };
-  
+
       console.log('Updated Task Before API Call:', updatedTask);
-  
+
       const response = await axiosReq.put(`/tasks/${task.id}`, updatedTask);
       console.log('API Response:', response.data);
-  
-      // Update local state
+
       const updatedTasks = tasksState.map(t => (t.id === task.id ? updatedTask : t));
       setTasksState(updatedTasks);
     } catch (err) {
@@ -77,9 +73,9 @@ const DayView = ({ date, tasks }) => {
   };
 
   const isOverdue = (task) => {
-    const today = new Date().setHours(0, 0, 0, 0); // Today's date at midnight
-    const endDate = new Date(task.end_date).setHours(0, 0, 0, 0); // Task end date at midnight
-    return endDate < today && !task.completed;
+    const today = new Date().setHours(0, 0, 0, 0);
+    const taskDate = new Date(task.start_date).setHours(0, 0, 0, 0);
+    return taskDate < today && !task.completed;
   };
 
   const renderTasks = () => {
@@ -177,4 +173,3 @@ const DayView = ({ date, tasks }) => {
 };
 
 export default DayView;
-//Added new function for overdue 
