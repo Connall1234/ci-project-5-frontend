@@ -32,6 +32,7 @@ const NavBar = () => {
       <NavLink
       className={styles.NavLink}
       to={`/profiles/${currentUser?.profile_id}`}
+
     >
       <i className="far fa-plus-square"></i>Profile
     </NavLink>

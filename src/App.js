@@ -11,6 +11,7 @@ import EditTask from "./pages/tasks/EditTask";
 import CalendarView from "./pages/home/CalendarView";
 import DayView from "./components/DayView";
 import ViewTask from "./pages/tasks/ViewTask"; // Import ViewTask component
+import Profile from "./components/Profile";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
           <Route exact path="/tasks/:id/edit" component={EditTask} />
           <Route exact path="/tasks/view/:id" component={ViewTask} /> 
           <Route exact path="/day-view" component={DayView} /> 
+          <Route path="/profiles/:id" component={Profile} />
+
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
       </Container>
