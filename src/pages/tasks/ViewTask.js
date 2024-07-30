@@ -49,11 +49,11 @@ function ViewTask() {
         </Form.Group>
         {errors?.start_date && <Alert variant="warning">{errors.start_date}</Alert>}
 
-        <Form.Group>
+        {/* <Form.Group>
           <Form.Label>End Date</Form.Label>
           <Form.Control type="text" value={moment(task.end_date).format("YYYY-MM-DD")} readOnly />
         </Form.Group>
-        {errors?.end_date && <Alert variant="warning">{errors.end_date}</Alert>}
+        {errors?.end_date && <Alert variant="warning">{errors.end_date}</Alert>} */}
 
         <Button onClick={() => window.history.back()}>Back</Button>
       </Form>

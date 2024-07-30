@@ -18,12 +18,11 @@ function EditTask() {
     title: "",
     description: "",
     start_date: new Date(),
-    end_date: new Date(),
     priority: "M", // Default priority
     category: "O", // Default category
   });
 
-  const { title, description, start_date, end_date, priority, category } = postData;
+  const { title, description, start_date, priority, category } = postData;
   const history = useHistory();
   const { id } = useParams();
 
@@ -31,13 +30,12 @@ function EditTask() {
     const handleMount = async () => {
       try {
         const { data } = await axiosReq.get(`/tasks/${id}`);
-        const { title, description, start_date, end_date, priority, category } = data;
+        const { title, description, start_date, priority, category } = data;
 
         setPostData({
           title,
           description,
           start_date: moment(start_date).toDate(),
-          end_date: moment(end_date).toDate(),
           priority,
           category,
         });
@@ -77,7 +75,7 @@ function EditTask() {
     event.preventDefault();
 
     // Validate mandatory fields
-    if (!title || !start_date || !end_date) {
+    if (!title || !start_date) {
       setErrors({ general: ["Please fill in all required fields."] });
       return;
     }
@@ -89,8 +87,7 @@ function EditTask() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("start_date", moment(start_date).format("YYYY-MM-DD HH:mm:ss")); // Format for backend with time
-    formData.append("end_date", moment(end_date).format("YYYY-MM-DD HH:mm:ss")); // Format for backend with time
+    formData.append("start_date", moment(start_date).format("YYYY-MM-DD")); // Format for backend without time
     formData.append("priority", priority);
     formData.append("category", category);
 
@@ -140,13 +137,11 @@ function EditTask() {
         ))}
 
         <Form.Group>
-          <Form.Label>Start Date & Time</Form.Label>
+          <Form.Label>Start Date</Form.Label>
           <DatePicker
             selected={start_date}
             onChange={(date) => handleDateChange(date, "start_date")}
-            dateFormat="yyyy-MM-dd HH:mm"
-            showTimeSelect
-            timeFormat="HH:mm"
+            dateFormat="yyyy-MM-dd"
           />
           {isPastDate && (
             <Alert variant="warning" className="mt-2">
@@ -155,22 +150,6 @@ function EditTask() {
           )}
         </Form.Group>
         {errors?.start_date?.map((message, idx) => (
-          <Alert variant="warning" key={idx}>
-            {message}
-          </Alert>
-        ))}
-
-        <Form.Group>
-          <Form.Label>End Date & Time</Form.Label>
-          <DatePicker
-            selected={end_date}
-            onChange={(date) => handleDateChange(date, "end_date")}
-            dateFormat="yyyy-MM-dd HH:mm"
-            showTimeSelect
-            timeFormat="HH:mm"
-          />
-        </Form.Group>
-        {errors?.end_date?.map((message, idx) => (
           <Alert variant="warning" key={idx}>
             {message}
           </Alert>

@@ -64,10 +64,6 @@ const TaskDisplay = () => {
             <Card.Text>Date: {format(new Date(task.start_date), 'MMMM d, yyyy')}</Card.Text>
             <Card.Text>Time: {format(new Date(task.start_date), 'hh:mm a')}</Card.Text>
 
-            {/* Display Date and Time separately for End Date */}
-            <Card.Text>Date: {format(new Date(task.end_date), 'MMMM d, yyyy')}</Card.Text>
-            <Card.Text>Time: {format(new Date(task.end_date), 'hh:mm a')}</Card.Text>
-
             <Card.Text>Completed: {task.completed ? "Yes" : "No"}</Card.Text>
             <Card.Text>Priority: {task.priority}</Card.Text>
             <Card.Text>Category: {task.category}</Card.Text>
