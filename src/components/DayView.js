@@ -49,17 +49,26 @@ const DayView = ({ date, tasks }) => {
   const handleCompleteTask = async (task) => {
     try {
       setUpdatingTask(task);
-      const updatedTask = { ...task, completed: !task.completed };
-      await axiosReq.put(`/tasks/${task.id}`, {
-        ...updatedTask,
-        start_date: new Date(updatedTask.start_date).toISOString(),
-        end_date: new Date(updatedTask.end_date).toISOString(),
-      });
-      // change task in local state
+  
+      const updatedTask = {
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        start_date: format(new Date(task.start_date), 'yyyy-MM-dd'),
+        end_date: format(new Date(task.end_date), 'yyyy-MM-dd'),
+        completed: !task.completed
+      };
+  
+      console.log('Updated Task Before API Call:', updatedTask);
+  
+      const response = await axiosReq.put(`/tasks/${task.id}`, updatedTask);
+      console.log('API Response:', response.data);
+  
+      // Update local state
       const updatedTasks = tasksState.map(t => (t.id === task.id ? updatedTask : t));
       setTasksState(updatedTasks);
     } catch (err) {
-      console.error('Failed to update task', err);
+      console.error('Failed to update task', err.response ? err.response.data : err);
     } finally {
       setUpdatingTask(null);
       setTaskToComplete(null);
@@ -67,8 +76,15 @@ const DayView = ({ date, tasks }) => {
     }
   };
 
+  const isOverdue = (task) => {
+    const today = new Date().setHours(0, 0, 0, 0); // Today's date at midnight
+    const endDate = new Date(task.end_date).setHours(0, 0, 0, 0); // Task end date at midnight
+    return endDate < today && !task.completed;
+  };
+
   const renderTasks = () => {
     const tasksForDay = tasksState.filter(task => format(new Date(task.start_date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
+    const overdueTasks = tasksState.filter(isOverdue);
 
     if (tasksForDay.length === 0) {
       return <p>No tasks for {formattedDate}</p>;
@@ -77,9 +93,15 @@ const DayView = ({ date, tasks }) => {
     return (
       <div className={styles.tasks}>
         <h3>Tasks for {formattedDate}</h3>
+        <div className={styles.overdueCount}>
+          Overdue: {overdueTasks.length}
+        </div>
         <ul className={styles.taskList}>
           {tasksForDay.map(task => (
-            <li key={task.id} className={`${styles.taskBar} ${styles[`priority-${task.priority}`]} ${task.completed ? styles.completed : ''}`}>
+            <li
+              key={task.id}
+              className={`${styles.taskBar} ${styles[`priority-${task.priority}`]} ${task.completed ? styles.completed : ''} ${isOverdue(task) ? styles.overdue : ''}`}
+            >
               <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
                 {task.title} - {format(new Date(task.start_date), 'hh:mm a')}
               </span>
