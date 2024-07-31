@@ -36,12 +36,12 @@ const NavBar = () => {
     >
       <i className="far fa-plus-square"></i>Profile
     </NavLink>
-    <NavLink
+    {/* <NavLink
       className={styles.NavLink}
       to={"/calendar"}
     >
       <i className="far fa-plus-square"></i>Calendar
-    </NavLink>
+    </NavLink> */}
     <NavLink
       className={styles.NavLink}
       to="/"

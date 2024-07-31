@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import styles from '../styles/DayView.module.css';
 import { useHistory } from 'react-router-dom';
 import { axiosReq } from '../api/axiosDefaults';
+import { useOverdueTasks } from '../contexts/OverdueTasksContext';
 
 const DayView = ({ date, tasks }) => {
   const history = useHistory();
@@ -13,10 +14,13 @@ const DayView = ({ date, tasks }) => {
   const [taskToIncomplete, setTaskToIncomplete] = useState(null);
 
   const formattedDate = format(date, 'MMMM d, yyyy');
+  const { setOverdueCount } = useOverdueTasks();
 
   useEffect(() => {
     setTasksState(tasks);
-  }, [tasks]);
+    const overdueTasks = tasks.filter(isOverdue);
+    setOverdueCount(overdueTasks.length);
+  }, [tasks, setOverdueCount]);
 
   const handleAddTask = () => {
     history.push({
