@@ -1,0 +1,34 @@
+.profile-edit-container {
+    margin-top: 20px;
+  }
+  
+  .profile-edit-container .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .profile-edit-container .form-control {
+    margin-bottom: 10px;
+  }
+  
+  .profile-edit-container .upload-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #007bff;
+  }
+  
+  .profile-edit-container .upload-icon:hover {
+    color: #0056b3;
+  }
+  
+  .profile-edit-container .profile-image-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 10px;
+  }
+  
+  .profile-edit-container .save-button {
+    margin-top: 20px;
+  }
+  

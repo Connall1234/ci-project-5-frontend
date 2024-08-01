@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import cal_image from "../assets/cal_image.jpg";
 import styles from "../styles/NavBar.module.css";
-import { NavLink } from "react-router-dom";
 import { useCurrentUser, useSetCurrentUser } from "../contexts/CurrentUserContext";
 import axios from "axios";
 
 const NavBar = () => {
+  const [navExpanded, setNavExpanded] = useState(false);
+  const navRef = useRef(null); // ref for strict dom 
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
@@ -14,49 +16,65 @@ const NavBar = () => {
     try {
       await axios.post("dj-rest-auth/logout/");
       setCurrentUser(null);
-    } catch(err) {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+
+  const handleNavLinkClick = () => {
+    setNavExpanded(false);
+  };
+
+  const handleClickOutside = (event) => {
+    if (navRef.current && !navRef.current.contains(event.target)) {
+      setNavExpanded(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const addTask = (
     <NavLink
       className={styles.NavLink}
       activeClassName={styles.Active}
       to="/tasks/create"
+      onClick={handleNavLinkClick}
     >
       <i className="far fa-plus-square"></i>Add task
     </NavLink>
   );
-  const loggedInIcons = <>
+
+  const loggedInIcons = (
+    <>
       <NavLink
-      className={styles.NavLink}
-      to={`/profiles/${currentUser?.profile_id}`}
+        className={styles.NavLink}
+        to={`/profiles/${currentUser?.profile_id}`}
+        onClick={handleNavLinkClick}
+      >
+        <i className="far fa-user"></i>Profile
+      </NavLink>
+      <NavLink
+        className={styles.NavLink}
+        to="/"
+        onClick={handleSignOut}
+      >
+        <i className="fas fa-sign-out-alt"></i>Sign out
+      </NavLink>
+    </>
+  );
 
-    >
-      <i className="far fa-plus-square"></i>Profile
-    </NavLink>
-    {/* <NavLink
-      className={styles.NavLink}
-      to={"/calendar"}
-    >
-      <i className="far fa-plus-square"></i>Calendar
-    </NavLink> */}
-    <NavLink
-      className={styles.NavLink}
-      to="/"
-      onClick = {handleSignOut}
-    >
-      <i className="fas fa-sign-out-alt"></i>Sign out
-    </NavLink>
-
-  </>;
   const loggedOutIcons = (
     <>
       <NavLink
         className={styles.NavLink}
         activeClassName={styles.Active}
         to="/signin"
+        onClick={handleNavLinkClick}
       >
         <i className="fas fa-sign-in-alt"></i>Sign in
       </NavLink>
@@ -64,6 +82,7 @@ const NavBar = () => {
         to="/signup"
         className={styles.NavLink}
         activeClassName={styles.Active}
+        onClick={handleNavLinkClick}
       >
         <i className="fas fa-user-plus"></i>Sign up
       </NavLink>
@@ -71,7 +90,14 @@ const NavBar = () => {
   );
 
   return (
-    <Navbar className={styles.NavBar} expand="md" fixed="top">
+    <Navbar
+      className={styles.NavBar}
+      expand="md"
+      fixed="top"
+      expanded={navExpanded}
+      onToggle={(expanded) => setNavExpanded(expanded)}
+      ref={navRef} // ref here for collapsing 
+    >
       <Container>
         <NavLink to="/">
           <Navbar.Brand>
@@ -87,10 +113,10 @@ const NavBar = () => {
               className={styles.NavLink}
               activeClassName={styles.Active}
               to="/"
+              onClick={handleNavLinkClick}
             >
               <i className="fas fa-home"></i>Home
             </NavLink>
-
             {currentUser ? loggedInIcons : loggedOutIcons}
           </Nav>
         </Navbar.Collapse>
