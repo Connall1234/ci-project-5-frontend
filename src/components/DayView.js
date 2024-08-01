@@ -17,8 +17,8 @@ const DayView = ({ date, tasks }) => {
   const { setOverdueCount } = useOverdueTasks();
 
   useEffect(() => {
-    setTasksState(tasks);
     const overdueTasks = tasks.filter(isOverdue);
+    console.log('Calculating Overdue Tasks:', overdueTasks.length);
     setOverdueCount(overdueTasks.length);
   }, [tasks, setOverdueCount]);
 
@@ -53,10 +53,7 @@ const DayView = ({ date, tasks }) => {
       setUpdatingTask(task);
 
       const updatedTask = {
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        start_date: format(new Date(task.start_date), 'yyyy-MM-dd'),
+        ...task,
         completed: !task.completed
       };
 
@@ -65,8 +62,9 @@ const DayView = ({ date, tasks }) => {
       const response = await axiosReq.put(`/tasks/${task.id}`, updatedTask);
       console.log('API Response:', response.data);
 
-      const updatedTasks = tasksState.map(t => (t.id === task.id ? updatedTask : t));
-      setTasksState(updatedTasks);
+      setTasksState(prevTasks =>
+        prevTasks.map(t => (t.id === task.id ? response.data : t))
+      );
     } catch (err) {
       console.error('Failed to update task', err.response ? err.response.data : err);
     } finally {
@@ -102,7 +100,7 @@ const DayView = ({ date, tasks }) => {
               key={task.id}
               className={`${styles.taskBar} ${styles[`priority-${task.priority}`]} ${task.completed ? styles.completed : ''} ${isOverdue(task) ? styles.overdue : ''}`}
             >
-              <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+              <span style={{ textDecoration: task.completed ? 'line-through' : 'none', color: task.completed ? 'grey' : 'black' }}>
                 {task.title} - {format(new Date(task.start_date), 'hh:mm a')}
               </span>
               <div className={styles.taskActions}>

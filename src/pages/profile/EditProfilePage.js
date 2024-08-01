@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from "../../styles/EditProfilePage.module.css"
+import "../../styles/EditProfilePage.module.css"
 
-const EditProfilePage = (props) => {
-  const { id } = props.match.params; // get the users id 
-  const [profile, setProfile] = useState(null);
+const EditProfile = () => {
+  const { id } = useParams(); // Extract userId from route parameters
+  const history = useHistory();
+  const [profile, setProfile] = useState({
+    first_name: '',
+    last_name: '',
+    bio: '',
+    image: '',
+  });
   const [error, setError] = useState(null);
-  const [image, setImage] = useState(null);
-  const [bio, setBio] = useState("");
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`https://project-5-backend-api-connall-3eb143768597.herokuapp.com/profiles/${id}`);
+        const response = await axios.get(`/profiles/${id}`);
         setProfile(response.data);
-        setBio(response.data.bio || "");
       } catch (error) {
         console.error('Error fetching profile data', error);
         setError('Failed to load profile data.');
@@ -28,73 +32,90 @@ const EditProfilePage = (props) => {
     }
   }, [id]);
 
-  const handleImageUpload = async (event) => {
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      [name]: value,
+    }));
+  };
+
+  const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append('image', file);
-      try {
-        await axios.post(`https://project-5-backend-api-connall-3eb143768597.herokuapp.com/profiles/${id}/upload`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        // Refresh the profile 
-        const response = await axios.get(`https://project-5-backend-api-connall-3eb143768597.herokuapp.com/profiles/${id}`);
-        setProfile(response.data);
-        setImage(response.data.image); // for images
-      } catch (error) {
-        console.error('Error uploading image', error);
-        setError('Failed to upload image.');
-      }
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        image: file,
+      }));
     }
   };
 
-  const handleSave = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('first_name', profile.first_name);
+    formData.append('last_name', profile.last_name);
+    formData.append('bio', profile.bio);
+    if (profile.image instanceof File) {
+      formData.append('image', profile.image);
+    }
+
     try {
-      await axios.put(`https://project-5-backend-api-connall-3eb143768597.herokuapp.com/profiles/${id}`, {
-        bio,
+      await axios.put(`/profiles/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
-      alert("Profile updated successfully!");
+      history.push(`/profiles/${id}`);
     } catch (error) {
       console.error('Error updating profile', error);
       setError('Failed to update profile.');
     }
   };
 
-  if (error) {
-    return <Alert variant="danger">{error}</Alert>;
-  }
-
-  if (!profile) {
-    return <p>Loading...</p>;
-  }
-
   return (
-    <Container className={styles['profile-edit-container']}>
+    <Container>
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
-          <Form>
-            <Form.Group controlId="formBasicBio">
+          <h2>Edit Profile</h2>
+          {error && <Alert variant="danger">{error}</Alert>}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="first_name">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="first_name"
+                value={profile.first_name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="last_name">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="last_name"
+                value={profile.last_name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="bio">
               <Form.Label>Bio</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
+                name="bio"
+                value={profile.bio}
+                onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Profile Imagefff</Form.Label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="form-control-file"
+            <Form.Group controlId="image">
+              <Form.Label>Profile Image</Form.Label>
+              <Form.File
+                name="image"
+                onChange={handleImageChange}
               />
-              {image && <img src={image} alt="Profile" className={styles['profile-image-preview']} />}
             </Form.Group>
-            <Button variant="primary" className={styles['save-button']} onClick={handleSave}>Save Change??s</Button>
+            <Button type="submit">Save Changes</Button>
           </Form>
         </Col>
       </Row>
@@ -102,4 +123,4 @@ const EditProfilePage = (props) => {
   );
 };
 
-export default EditProfilePage;
+export default EditProfile;
