@@ -3,9 +3,8 @@ import { format } from 'date-fns';
 import styles from '../styles/DayView.module.css';
 import { useHistory } from 'react-router-dom';
 import { axiosReq } from '../api/axiosDefaults';
-import { useOverdueTasks } from '../contexts/OverdueTasksContext';
 
-const DayView = ({ date, tasks }) => {
+const DayView = ({ date, tasks, onTaskUpdate }) => {
   const history = useHistory();
   const [tasksState, setTasksState] = useState(tasks);
   const [taskToDelete, setTaskToDelete] = useState(null);
@@ -14,18 +13,16 @@ const DayView = ({ date, tasks }) => {
   const [taskToIncomplete, setTaskToIncomplete] = useState(null);
 
   const formattedDate = format(date, 'MMMM d, yyyy');
-  const { setOverdueCount } = useOverdueTasks();
+  const formattedDateForCreate = format(date, 'yyyy-MM-dd'); // For task creation
 
   useEffect(() => {
-    const overdueTasks = tasks.filter(isOverdue);
-    console.log('Calculating Overdue Tasks:', overdueTasks.length);
-    setOverdueCount(overdueTasks.length);
-  }, [tasks, setOverdueCount]);
+    setTasksState(tasks);
+  }, [tasks]);
 
   const handleAddTask = () => {
     history.push({
       pathname: '/tasks/create',
-      state: { date: format(date, 'yyyy-MM-dd') }
+      state: { date: formattedDateForCreate } // Use formattedDateForCreate
     });
   };
 
@@ -65,6 +62,9 @@ const DayView = ({ date, tasks }) => {
       setTasksState(prevTasks =>
         prevTasks.map(t => (t.id === task.id ? response.data : t))
       );
+
+      // Tell parent component about the task update
+      onTaskUpdate(response.data);
     } catch (err) {
       console.error('Failed to update task', err.response ? err.response.data : err);
     } finally {
@@ -82,7 +82,6 @@ const DayView = ({ date, tasks }) => {
 
   const renderTasks = () => {
     const tasksForDay = tasksState.filter(task => format(new Date(task.start_date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
-    const overdueTasks = tasksState.filter(isOverdue);
 
     if (tasksForDay.length === 0) {
       return <p>No tasks for {formattedDate}</p>;
@@ -91,9 +90,6 @@ const DayView = ({ date, tasks }) => {
     return (
       <div className={styles.tasks}>
         <h3>Tasks for {formattedDate}</h3>
-        <div className={styles.overdueCount}>
-          Overdue: {overdueTasks.length}
-        </div>
         <ul className={styles.taskList}>
           {tasksForDay.map(task => (
             <li

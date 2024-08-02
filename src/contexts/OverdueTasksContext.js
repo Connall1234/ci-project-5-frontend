@@ -12,6 +12,8 @@ export const OverdueTasksProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('overdueCount', overdueCount);
     console.log('Updated Overdue Count in Local Storage:', overdueCount); // Debug log
+    console.log('Updated Overdue Count in Local Storage, right after:', overdueCount); // Debug log
+
   }, [overdueCount]);
 
   return (

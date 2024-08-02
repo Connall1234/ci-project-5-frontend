@@ -13,13 +13,14 @@ function EditTask() {
   const [errors, setErrors] = useState({});
   const [isPastDate, setIsPastDate] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [loading, setLoading] = useState(true); // Add loading state for date error
 
   const [postData, setPostData] = useState({
     title: "",
     description: "",
     start_date: new Date(),
-    priority: "M", // Default priority
-    category: "O", // Default category
+    priority: "M", // Default 
+    category: "O", // Default 
   });
 
   const { title, description, start_date, priority, category } = postData;
@@ -27,29 +28,31 @@ function EditTask() {
   const { id } = useParams();
 
   useEffect(() => {
-    const handleMount = async () => {
+    const fetchTaskData = async () => {
       try {
         const { data } = await axiosReq.get(`/tasks/${id}`);
-        const { title, description, start_date, priority, category } = data;
+        const fetchedStartDate = moment(data.start_date).toDate();
 
         setPostData({
-          title,
-          description,
-          start_date: moment(start_date).toDate(),
-          priority,
-          category,
+          title: data.title,
+          description: data.description,
+          start_date: fetchedStartDate,
+          priority: data.priority,
+          category: data.category,
         });
 
         // Check if start_date is in the past (excluding today)
         const today = moment().startOf("day");
-        const taskStartDate = moment(start_date).startOf("day");
+        const taskStartDate = moment(fetchedStartDate).startOf("day");
         setIsPastDate(taskStartDate.isBefore(today));
       } catch (err) {
         console.log(err);
+      } finally {
+        setLoading(false); // Set loading to false after getting start date
       }
     };
 
-    handleMount();
+    fetchTaskData();
   }, [id]);
 
   const handleChange = (event) => {
@@ -59,10 +62,10 @@ function EditTask() {
     });
   };
 
-  const handleDateChange = (date, name) => {
+  const handleDateChange = (date) => {
     setPostData({
       ...postData,
-      [name]: date,
+      start_date: date,
     });
 
     // Check if start_date is in the past when date changes
@@ -74,20 +77,20 @@ function EditTask() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validate mandatory fields
+    // Fill in all fields 
     if (!title || !start_date) {
       setErrors({ general: ["Please fill in all required fields."] });
       return;
     }
 
-    setShowConfirmation(true); // Show confirmation dialog before submitting
+    setShowConfirmation(true); // Show confirmation before submitting
   };
 
   const confirmUpdate = async () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("start_date", moment(start_date).format("YYYY-MM-DD")); // Format for backend without time
+    formData.append("start_date", moment(start_date).format("YYYY-MM-DD")); // Format for backend with no time
     formData.append("priority", priority);
     formData.append("category", category);
 
@@ -138,11 +141,13 @@ function EditTask() {
 
         <Form.Group>
           <Form.Label>Start Date</Form.Label>
-          <DatePicker
-            selected={start_date}
-            onChange={(date) => handleDateChange(date, "start_date")}
-            dateFormat="yyyy-MM-dd"
-          />
+          {!loading && (
+            <DatePicker
+              selected={start_date}
+              onChange={handleDateChange}
+              dateFormat="yyyy-MM-dd"
+            />
+          )}
           {isPastDate && (
             <Alert variant="warning" className="mt-2">
               This is a task in the past. Are you sure you want to update it?
