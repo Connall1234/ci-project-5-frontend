@@ -7,7 +7,7 @@ import { axiosReq } from "../api/axiosDefaults";
 import { format } from 'date-fns'; // Import format function from date-fns
 
 const TaskDisplay = () => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([]); // Ensure tasks is initialized as an empty array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const history = useHistory();
@@ -33,7 +33,10 @@ const TaskDisplay = () => {
           "https://project-5-backend-api-connall-3eb143768597.herokuapp.com/tasks/"
         );
         console.log("API response:", response.data);
-        setTasks(response.data.results); 
+
+        // Access the tasks array from the response
+        const fetchedTasks = Array.isArray(response.data.tasks) ? response.data.tasks : [];
+        setTasks(fetchedTasks); 
       } catch (err) {
         setError(err);
       } finally {
@@ -50,6 +53,10 @@ const TaskDisplay = () => {
 
   if (error) {
     return <div>Error: {error.message}</div>;
+  }
+
+  if (!Array.isArray(tasks)) {
+    return <div>Error: Tasks data is not an array</div>;
   }
 
   return (

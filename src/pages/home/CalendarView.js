@@ -1,29 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "../../components/Calendar"; 
 import { axiosReq } from "../../api/axiosDefaults"; 
-import { useOverdueTasks } from "../../contexts/OverdueTasksContext"; 
 
 const CalendarView = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { setOverdueCount } = useOverdueTasks();
 
   const fetchTasks = async () => {
     try {
       const response = await axiosReq.get("/tasks/");
-      const fetchedTasks = response.data.results;
-      setTasks(fetchedTasks);
-
-      // Calculate overdue tasks
-      const overdueTasks = fetchedTasks.filter(task => {
-        const today = new Date().setHours(0, 0, 0, 0);
-        const taskDate = new Date(task.start_date).setHours(0, 0, 0, 0);
-        return taskDate < today && !task.completed;
-      });
-
-      // Update overdue count in context
-      setOverdueCount(overdueTasks.length);
+      setTasks(response.data.tasks);
     } catch (err) {
       setError(err);
     } finally {
@@ -33,24 +20,14 @@ const CalendarView = () => {
 
   useEffect(() => {
     fetchTasks();
-  // eslint-disable-next-line
   }, []);
 
   const handleTaskUpdate = async (updatedTask) => {
     try {
       const response = await axiosReq.put(`/tasks/${updatedTask.id}`, updatedTask);
-      const updatedTasks = tasks.map(task => (task.id === updatedTask.id ? response.data : task));
-      setTasks(updatedTasks);
-
-      // Update overdue tasks
-      const overdueTasks = updatedTasks.filter(task => {
-        const today = new Date().setHours(0, 0, 0, 0);
-        const taskDate = new Date(task.start_date).setHours(0, 0, 0, 0);
-        return taskDate < today && !task.completed;
-      });
-
-      // Update overdue count in context
-      setOverdueCount(overdueTasks.length);
+      setTasks(prevTasks =>
+        prevTasks.map(task => (task.id === updatedTask.id ? response.data : task))
+      );
     } catch (err) {
       console.error('Failed to update task', err);
     }
@@ -59,18 +36,7 @@ const CalendarView = () => {
   const handleTaskDelete = async (taskId) => {
     try {
       await axiosReq.delete(`/tasks/${taskId}`);
-      const updatedTasks = tasks.filter(task => task.id !== taskId);
-      setTasks(updatedTasks);
-
-      // Update overdue tasks
-      const overdueTasks = updatedTasks.filter(task => {
-        const today = new Date().setHours(0, 0, 0, 0);
-        const taskDate = new Date(task.start_date).setHours(0, 0, 0, 0);
-        return taskDate < today && !task.completed;
-      });
-
-      // Update overdue count in context
-      setOverdueCount(overdueTasks.length);
+      setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
     } catch (err) {
       console.error('Failed to delete task', err);
     }

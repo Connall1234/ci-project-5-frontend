@@ -16,7 +16,6 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
 
-  console.log('Rendering Calendar with tasks:', tasks);
 
   const startDate = startOfMonth(currentMonth);
   const endDate = endOfMonth(currentMonth);
@@ -38,7 +37,6 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
 
   const renderTasksForDay = (date) => {
     const tasksForDay = tasks.filter(task => isSameDay(new Date(task.start_date), date));
-
 
     if (tasksForDay.length === 0) {
       return null;

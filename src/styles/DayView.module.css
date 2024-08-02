@@ -73,74 +73,29 @@
   text-decoration: line-through;
 }
 
-/* In your DayView.module.css */
 .overdue {
   color: red;
 }
 
-.taskBar {
-  /* existing styles */
-}
+
 
 .taskBar.overdue {
-  background-color: #f8d7da; /* Light red background for overdue tasks */
-  border-left: 4px solid #dc3545; /* Red border for overdue tasks */
+  background-color: #f8d7da; 
+  border-left: 4px solid #dc3545; 
 }
 
-/* other existing styles */
 
 
-.notification {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  font-size: 16px;
-  z-index: 1000;
-  animation: fadeInOut 3s ease-in-out;
-}
-
-.green {
-  background-color: #4caf50; /* Green */
-}
-
-.red {
-  background-color: #f44336; /* Red */
-}
-
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
 
 .confirmationDialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  color: black;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  visibility: hidden;
 }
 
-.confirmationDialog button {
-  margin: 5px;
+.confirmationDialog.visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 

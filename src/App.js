@@ -15,6 +15,8 @@ import Profile from "./components/Profile";
 import TaskDisplay from "./components/TaskDisplay"
 import EditProfilePage from "./pages/profile/EditProfilePage";
 
+
+
 function App() {
   return (
     <div className={styles.App}>

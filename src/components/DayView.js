@@ -9,22 +9,12 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
   const [tasksState, setTasksState] = useState(tasks);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [updatingTask, setUpdatingTask] = useState(null);
-  const [taskToComplete, setTaskToComplete] = useState(null);
-  const [taskToIncomplete, setTaskToIncomplete] = useState(null);
 
   const formattedDate = format(date, 'MMMM d, yyyy');
-  const formattedDateForCreate = format(date, 'yyyy-MM-dd'); // For task creation
 
   useEffect(() => {
     setTasksState(tasks);
-  }, [tasks]);
-
-  const handleAddTask = () => {
-    history.push({
-      pathname: '/tasks/create',
-      state: { date: formattedDateForCreate } // Use formattedDateForCreate
-    });
-  };
+  }, [tasks, date]);
 
   const handleViewTask = (taskId) => {
     history.push(`/tasks/view/${taskId}`);
@@ -35,14 +25,17 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
   };
 
   const handleDeleteTask = async () => {
+    if (!taskToDelete) return;
+
     try {
+      console.log('Deleting task:', taskToDelete.id);
       await axiosReq.delete(`/tasks/${taskToDelete.id}`);
-      setTaskToDelete(null);
       setTasksState(prevTasks => prevTasks.filter(task => task.id !== taskToDelete.id));
-      console.log('Task deleted successfully');
-      window.location.reload()
+      console.log('Task deleted successfully:', taskToDelete.id);
     } catch (err) {
       console.error('Failed to delete task', err);
+    } finally {
+      setTaskToDelete(null);
     }
   };
 
@@ -55,30 +48,17 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
         completed: !task.completed
       };
 
-      console.log('Updated Task Before API Call:', updatedTask);
-
+      console.log('Updating task:', updatedTask);
       const response = await axiosReq.put(`/tasks/${task.id}`, updatedTask);
-      console.log('API Response:', response.data);
 
       setTasksState(prevTasks =>
         prevTasks.map(t => (t.id === task.id ? response.data : t))
       );
-
-      // Tell parent component about the task update
-      onTaskUpdate(response.data);
     } catch (err) {
-      console.error('Failed to update task', err.response ? err.response.data : err);
+      console.error('Failed to update task', err);
     } finally {
       setUpdatingTask(null);
-      setTaskToComplete(null);
-      setTaskToIncomplete(null);
     }
-  };
-
-  const isOverdue = (task) => {
-    const today = new Date().setHours(0, 0, 0, 0);
-    const taskDate = new Date(task.start_date).setHours(0, 0, 0, 0);
-    return taskDate < today && !task.completed;
   };
 
   const renderTasks = () => {
@@ -95,10 +75,10 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
           {tasksForDay.map(task => (
             <li
               key={task.id}
-              className={`${styles.taskBar} ${styles[`priority-${task.priority}`]} ${task.completed ? styles.completed : ''} ${isOverdue(task) ? styles.overdue : ''}`}
+              className={`${styles.taskBar} ${styles[`priority-${task.priority}`]} ${task.completed ? styles.completed : ''}`}
             >
               <span style={{ textDecoration: task.completed ? 'line-through' : 'none', color: task.completed ? 'grey' : 'black' }}>
-                {task.title} - {format(new Date(task.start_date), 'hh:mm a')}
+                {task.title}
               </span>
               <div className={styles.taskActions}>
                 <button onClick={() => handleViewTask(task.id)}>
@@ -113,7 +93,10 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
                 <input
                   type="checkbox"
                   checked={task.completed}
-                  onChange={() => task.completed ? setTaskToIncomplete(task) : setTaskToComplete(task)}
+                  onChange={() => {
+                    if (updatingTask) return;
+                    handleCompleteTask(task);
+                  }}
                   disabled={updatingTask === task}
                 />
               </div>
@@ -124,47 +107,16 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
     );
   };
 
-  const handleCompleteConfirmation = async () => {
-    if (taskToComplete) {
-      await handleCompleteTask(taskToComplete);
-      setTaskToComplete(null);
-    }
-  };
-
-  const handleIncompleteConfirmation = async () => {
-    if (taskToIncomplete) {
-      await handleCompleteTask(taskToIncomplete);
-      setTaskToIncomplete(null);
-    }
-  };
-
   return (
     <div className={styles.dayView}>
       <h2>{formattedDate}</h2>
       {renderTasks()}
-      <button onClick={handleAddTask}>Add Task</button>
 
       {taskToDelete && (
-        <div className={styles.confirmationDialog}>
+        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', padding: '20px', backgroundColor: 'white', border: '1px solid black' }}>
           <p>Are you sure you want to delete this task?</p>
           <button onClick={handleDeleteTask}>Yes</button>
           <button onClick={() => setTaskToDelete(null)}>No</button>
-        </div>
-      )}
-
-      {taskToComplete && (
-        <div className={styles.confirmationDialog}>
-          <p>Is this task complete?</p>
-          <button onClick={handleCompleteConfirmation}>Yes</button>
-          <button onClick={() => setTaskToComplete(null)}>No</button>
-        </div>
-      )}
-
-      {taskToIncomplete && (
-        <div className={styles.confirmationDialog}>
-          <p>Is this task incomplete?</p>
-          <button onClick={handleIncompleteConfirmation}>Yes</button>
-          <button onClick={() => setTaskToIncomplete(null)}>No</button>
         </div>
       )}
     </div>
