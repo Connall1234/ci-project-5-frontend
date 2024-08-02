@@ -32,6 +32,13 @@ function CreateTask() {
     }
   }, [location.state]);
 
+  useEffect(() => {
+    // Check if start_date is in the past
+    const today = moment().startOf("day");
+    const taskStartDate = moment(start_date).startOf("day");
+    setIsPastDate(taskStartDate.isBefore(today));
+  }, [start_date]);
+
   const handleChange = (event) => {
     setPostData({
       ...postData,
@@ -39,28 +46,21 @@ function CreateTask() {
     });
   };
 
-  const handleDateChange = (date, name) => {
+  const handleDateChange = (date) => {
     setPostData({
       ...postData,
-      [name]: date,
+      start_date: date,
     });
-
-    // Check if start_date is in the past when date changes
-    const today = moment().startOf("day");
-    const taskStartDate = moment(date).startOf("day");
-    setIsPastDate(taskStartDate.isBefore(today));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // CFill in fields
     if (!title || !start_date) {
       setErrors({ general: ["Please fill in all required fields."] });
       return;
     }
 
-    // Display confirmation if the date is in the past
     if (isPastDate) {
       setShowConfirmation(true);
     } else {
@@ -126,7 +126,7 @@ function CreateTask() {
           <Form.Label>Start Date</Form.Label>
           <DatePicker
             selected={start_date}
-            onChange={(date) => handleDateChange(date, "start_date")}
+            onChange={handleDateChange}
             dateFormat="yyyy-MM-dd"
           />
           {isPastDate && (

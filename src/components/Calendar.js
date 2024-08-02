@@ -39,7 +39,6 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
   const renderTasksForDay = (date) => {
     const tasksForDay = tasks.filter(task => isSameDay(new Date(task.start_date), date));
 
-    console.log('Tasks for day:', date, tasksForDay); // Debug output
 
     if (tasksForDay.length === 0) {
       return null;

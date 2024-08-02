@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Calendar from "../../components/Calendar"; // Adjust the import path as needed
-import { axiosReq } from "../../api/axiosDefaults"; // Adjust the import path as needed
-import { useOverdueTasks } from "../../contexts/OverdueTasksContext"; // Adjust the import path as needed
+import Calendar from "../../components/Calendar"; 
+import { axiosReq } from "../../api/axiosDefaults"; 
+import { useOverdueTasks } from "../../contexts/OverdueTasksContext"; 
 
 const CalendarView = () => {
   const [tasks, setTasks] = useState([]);
