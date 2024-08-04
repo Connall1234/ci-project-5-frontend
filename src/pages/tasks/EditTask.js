@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Alert from "react-bootstrap/Alert";
+import { Form, Button, Container, Alert } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 
@@ -13,14 +10,14 @@ function EditTask() {
   const [errors, setErrors] = useState({});
   const [isPastDate, setIsPastDate] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [loading, setLoading] = useState(true); // Add loading state for date error
+  const [loading, setLoading] = useState(true);
 
   const [postData, setPostData] = useState({
     title: "",
     description: "",
     start_date: new Date(),
-    priority: "M", // Default 
-    category: "O", // Default 
+    priority: "M",
+    category: "O",
   });
 
   const { title, description, start_date, priority, category } = postData;
@@ -41,14 +38,13 @@ function EditTask() {
           category: data.category,
         });
 
-        // Check if start_date is in the past (excluding today)
         const today = moment().startOf("day");
         const taskStartDate = moment(fetchedStartDate).startOf("day");
         setIsPastDate(taskStartDate.isBefore(today));
       } catch (err) {
         console.log(err);
       } finally {
-        setLoading(false); // Set loading to false after getting start date
+        setLoading(false);
       }
     };
 
@@ -68,29 +64,27 @@ function EditTask() {
       start_date: date,
     });
 
-    // Check if start_date is in the past when date changes
     const today = moment().startOf("day");
     const taskStartDate = moment(date).startOf("day");
     setIsPastDate(taskStartDate.isBefore(today));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Fill in all fields 
     if (!title || !start_date) {
       setErrors({ general: ["Please fill in all required fields."] });
       return;
     }
 
-    setShowConfirmation(true); // Show confirmation before submitting
+    setShowConfirmation(true);
   };
 
   const confirmUpdate = async () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("start_date", moment(start_date).format("YYYY-MM-DD")); // Format for backend with no time
+    formData.append("start_date", moment(start_date).format("YYYY-MM-DD"));
     formData.append("priority", priority);
     formData.append("category", category);
 
@@ -106,8 +100,9 @@ function EditTask() {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Container>
+    <Container className="mt-4 edit-task-container">
+      <h1 className="text-center mb-4">Edit Task</h1>
+      <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Title</Form.Label>
           <Form.Control
@@ -115,6 +110,7 @@ function EditTask() {
             name="title"
             value={title}
             onChange={handleChange}
+            required
           />
         </Form.Group>
         {errors?.title?.map((message, idx) => (
@@ -194,8 +190,14 @@ function EditTask() {
           </Alert>
         ))}
 
-        <Button onClick={() => history.goBack()}>Cancel</Button>
-        <Button type="submit">Update</Button>
+        <div className="d-flex justify-content-between mt-4">
+          <Button variant="secondary" onClick={() => history.goBack()}>
+            Cancel
+          </Button>
+          <Button type="submit" variant="primary">
+            Update
+          </Button>
+        </div>
 
         {showConfirmation && (
           <div className="mt-3">
@@ -221,8 +223,8 @@ function EditTask() {
             </Alert>
           </div>
         )}
-      </Container>
-    </Form>
+      </Form>
+    </Container>
   );
 }
 
