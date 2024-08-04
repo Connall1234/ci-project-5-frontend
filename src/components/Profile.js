@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Alert, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles/ProfilePage.module.css"; // Adjust the path to your CSS file
@@ -26,11 +27,11 @@ const ProfilePage = (props) => {
   }, [id]);
 
   if (error) {
-    return <Alert variant="danger">{error}</Alert>;
+    return <Alert variant="danger" className="mt-4">{error}</Alert>;
   }
 
   if (!profile) {
-    return <p>Loading...</p>;
+    return <p className="text-center mt-4">Loading...</p>;
   }
 
   const { owner, completed_tasks_count, image, bio } = profile;
@@ -40,7 +41,12 @@ const ProfilePage = (props) => {
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
           <Card className="text-center">
-            <Card.Img variant="top" src={image} className="profile-image" />
+            <Card.Img
+              variant="top"
+              src={image}
+              className="profile-image"
+              style={{ width: '200px', height: '200px', objectFit: 'cover', margin: '0 auto', borderRadius: '50%' }}
+            />
             <Card.Body>
               <Card.Title className="profile-name">{owner}</Card.Title>
               <Card.Text className="profile-bio">
@@ -49,7 +55,10 @@ const ProfilePage = (props) => {
               <Card.Text className="profile-stats">
                 Completed Tasks: {completed_tasks_count}
               </Card.Text>
-              <Button variant="primary" href={`/profiles/${id}/edit`}>Edit Profile</Button>
+              <Button variant="primary" href={`/profiles/${id}/edit`} className="mr-2">Edit Profile</Button>
+              <Link to={`/profiles/${id}/rewards`}>
+                <Button variant="warning" style={{ color: 'white', backgroundColor: 'gold', borderColor: 'gold' }}>Your Rewards</Button>
+              </Link>
             </Card.Body>
           </Card>
         </Col>

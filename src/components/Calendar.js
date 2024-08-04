@@ -16,7 +16,6 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
 
-
   const startDate = startOfMonth(currentMonth);
   const endDate = endOfMonth(currentMonth);
   const daysInMonth = eachDayOfInterval({ start: startDate, end: endDate });
@@ -108,7 +107,7 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
       {selectedDay && (
         <DayView
           date={selectedDay}
-          tasks={tasks}
+          tasks={tasks.filter(task => isSameDay(new Date(task.start_date), selectedDay))} // Pass filtered tasks
           onTaskUpdate={onTaskUpdate}
           onTaskDelete={onTaskDelete}
         />

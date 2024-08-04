@@ -5,15 +5,15 @@ import { Route, Switch } from "react-router-dom";
 import "./api/axiosDefaults";
 import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
-//import HomePage from "./pages/home/HomePage";
 import CreateTask from "./pages/tasks/CreateTask";
 import EditTask from "./pages/tasks/EditTask";
 import CalendarView from "./pages/home/CalendarView";
 import DayView from "./components/DayView";
-import ViewTask from "./pages/tasks/ViewTask"; // Import ViewTask component
+import ViewTask from "./pages/tasks/ViewTask"; 
 import Profile from "./components/Profile";
 import TaskDisplay from "./components/TaskDisplay"
 import EditProfilePage from "./pages/profile/EditProfilePage";
+import RewardsPage from "./components/RewardsPage";
 
 
 
@@ -33,6 +33,8 @@ function App() {
           <Route exact path="/tasks/view/:id" component={ViewTask} /> 
           <Route exact path="/day-view" component={DayView} /> 
           <Route exact path="/profiles/:id/edit" component={EditProfilePage} />
+          <Route path="/profiles/:id/rewards" component={RewardsPage} />
+
 
           <Route path="/profiles/:id" component={Profile} />
 

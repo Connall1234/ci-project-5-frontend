@@ -10,7 +10,7 @@ const CalendarView = () => {
   const fetchTasks = async () => {
     try {
       const response = await axiosReq.get("/tasks/");
-      setTasks(response.data.tasks);
+      setTasks(response.data.tasks || []);
     } catch (err) {
       setError(err);
     } finally {
