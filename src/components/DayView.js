@@ -7,19 +7,36 @@ import styles from '../styles/DayView.module.css';
 
 const DayView = ({ date, tasks, onTaskUpdate }) => {
   const history = useHistory();
-  const [tasksState, setTasksState] = useState(tasks);
+  const [tasksState, setTasksState] = useState([]);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [updatingTask, setUpdatingTask] = useState(null);
   const [showPopover, setShowPopover] = useState(false);
   const [popoverMessage, setPopoverMessage] = useState('');
   const [popoverColor, setPopoverColor] = useState('success');
+  const [loading, setLoading] = useState(true);
 
   const formattedDate = format(date, 'MMMM d, yyyy');
   const formattedDateForCreate = format(date, 'yyyy-MM-dd');
 
   useEffect(() => {
-    setTasksState(tasks);
-  }, [tasks, date]);
+    const fetchTasksForDay = async () => {
+      setLoading(true);
+      try {
+        // Fetch all tasks
+        const response = await axiosReq.get('/tasks');
+        const tasksForDay = response.data.tasks.filter(task => 
+          format(new Date(task.start_date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+        );
+        setTasksState(tasksForDay);
+      } catch (error) {
+        console.error('Failed to fetch tasks for day', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasksForDay();
+  }, [date]);
 
   const handleAddTask = () => {
     history.push({
@@ -44,7 +61,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       await axiosReq.delete(`/tasks/${taskToDelete.id}`);
       setTasksState(prevTasks => prevTasks.filter(task => task.id !== taskToDelete.id));
       console.log('Task deleted successfully:', taskToDelete.id);
-      window.location.reload()
+      setTaskToDelete(null);
     } catch (err) {
       console.error('Failed to delete task', err);
     } finally {
@@ -88,9 +105,11 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
   );
 
   const renderTasks = () => {
-    const tasksForDay = tasksState.filter(task => format(new Date(task.start_date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
+    if (loading) {
+      return <p>Loading tasks...</p>;
+    }
 
-    if (tasksForDay.length === 0) {
+    if (tasksState.length === 0) {
       return <p>No tasks for {formattedDate}</p>;
     }
 
@@ -98,7 +117,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       <div className={styles.tasks}>
         <h3>Tasks for {formattedDate}</h3>
         <ul className={styles.taskList}>
-          {tasksForDay.map(task => (
+          {tasksState.map(task => (
             <li
               key={task.id}
               className={`${styles.taskBar} ${styles[`priority-${task.priority}`]} ${task.completed ? styles.completed : ''}`}
@@ -142,8 +161,8 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       {taskToDelete && (
         <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', padding: '20px', backgroundColor: 'white', border: '1px solid black' }}>
           <p>Are you sure you want to delete this task?</p>
-          <button onClick={handleDeleteTask}>Yes</button>
-          <button onClick={() => setTaskToDelete(null)}>No</button>
+          <Button onClick={handleDeleteTask}>Yes</Button>
+          <Button onClick={() => setTaskToDelete(null)}>No</Button>
         </div>
       )}
 
