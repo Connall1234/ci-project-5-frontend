@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../../styles/EditProfilePage.module.css"
 
 const EditProfile = () => {
-  const { id } = useParams(); // Extract userId from route parameters
+  const { id } = useParams(); 
   const history = useHistory();
   const [profile, setProfile] = useState({
     first_name: '',
@@ -115,7 +115,10 @@ const EditProfile = () => {
                 onChange={handleImageChange}
               />
             </Form.Group>
-            <Button type="submit">Save Changes</Button>
+            <div className="d-flex justify-content-between">
+              <Button type="submit" variant="primary" className="mr-2">Save Changes</Button>
+              <Button variant="secondary" className="ml-2" onClick={() => history.push(`/profiles/${id}`)}>Cancel</Button>
+            </div>
           </Form>
         </Col>
       </Row>

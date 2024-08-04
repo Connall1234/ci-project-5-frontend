@@ -30,5 +30,24 @@
   
   .profile-edit-container .save-button {
     margin-top: 20px;
+
+    
   }
+
+  .container {
+    margin-top: 20px;
+  }
+  
+  .form-control {
+    width: 100%;
+  }
+  
+  button {
+    width: 48%;
+  }
+  
+  textarea {
+    resize: none;
+  }
+  
   
