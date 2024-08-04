@@ -11,10 +11,18 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
   const [updatingTask, setUpdatingTask] = useState(null);
 
   const formattedDate = format(date, 'MMMM d, yyyy');
+  const formattedDateForCreate = format(date, 'yyyy-MM-dd'); 
 
   useEffect(() => {
     setTasksState(tasks);
   }, [tasks, date]);
+
+  const handleAddTask = () => {
+    history.push({
+      pathname: '/tasks/create',
+      state: { date: formattedDateForCreate }
+    });
+  };
 
   const handleViewTask = (taskId) => {
     history.push(`/tasks/view/${taskId}`);
@@ -111,6 +119,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
     <div className={styles.dayView}>
       <h2>{formattedDate}</h2>
       {renderTasks()}
+      <button onClick={handleAddTask}>Add Task</button>
 
       {taskToDelete && (
         <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', padding: '20px', backgroundColor: 'white', border: '1px solid black' }}>
