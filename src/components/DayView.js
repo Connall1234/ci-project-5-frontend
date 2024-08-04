@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import styles from '../styles/DayView.module.css';
 import { useHistory } from 'react-router-dom';
 import { axiosReq } from '../api/axiosDefaults';
+import { Popover, OverlayTrigger, Button, Fade } from 'react-bootstrap';
+import styles from '../styles/DayView.module.css';
 
 const DayView = ({ date, tasks, onTaskUpdate }) => {
   const history = useHistory();
   const [tasksState, setTasksState] = useState(tasks);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [updatingTask, setUpdatingTask] = useState(null);
+  const [showPopover, setShowPopover] = useState(false);
+  const [popoverMessage, setPopoverMessage] = useState('');
+  const [popoverColor, setPopoverColor] = useState('success');
 
   const formattedDate = format(date, 'MMMM d, yyyy');
-  const formattedDateForCreate = format(date, 'yyyy-MM-dd'); 
+  const formattedDateForCreate = format(date, 'yyyy-MM-dd');
 
   useEffect(() => {
     setTasksState(tasks);
@@ -40,6 +44,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       await axiosReq.delete(`/tasks/${taskToDelete.id}`);
       setTasksState(prevTasks => prevTasks.filter(task => task.id !== taskToDelete.id));
       console.log('Task deleted successfully:', taskToDelete.id);
+      window.location.reload()
     } catch (err) {
       console.error('Failed to delete task', err);
     } finally {
@@ -62,12 +67,25 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       setTasksState(prevTasks =>
         prevTasks.map(t => (t.id === task.id ? response.data : t))
       );
+
+      setPopoverMessage(updatedTask.completed ? 'Task complete' : 'Task incomplete');
+      setPopoverColor(updatedTask.completed ? 'success' : 'danger');
+      setShowPopover(true);
+      setTimeout(() => setShowPopover(false), 2000);
     } catch (err) {
       console.error('Failed to update task', err);
     } finally {
       setUpdatingTask(null);
     }
   };
+
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Content style={{ color: popoverColor === 'success' ? 'green' : 'red' }}>
+        {popoverMessage}
+      </Popover.Content>
+    </Popover>
+  );
 
   const renderTasks = () => {
     const tasksForDay = tasksState.filter(task => format(new Date(task.start_date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
@@ -128,6 +146,10 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
           <button onClick={() => setTaskToDelete(null)}>No</button>
         </div>
       )}
+
+      <OverlayTrigger show={showPopover} placement="bottom" overlay={popover} transition={Fade}>
+        <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}></div>
+      </OverlayTrigger>
     </div>
   );
 };
