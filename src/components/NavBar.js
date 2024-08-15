@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import cal_image from "../assets/cal_image.jpg";
+//import cal_image from "../assets/cal_image.jpg";
 import styles from "../styles/NavBar.module.css";
-import { useCurrentUser, useSetCurrentUser } from "../contexts/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "../contexts/CurrentUserContext";
 import axios from "axios";
 
 const NavBar = () => {
   const [navExpanded, setNavExpanded] = useState(false);
-  const navRef = useRef(null); // ref for strict dom 
+  const navRef = useRef(null); // ref for strict dom
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
@@ -51,6 +54,21 @@ const NavBar = () => {
 
   const loggedInIcons = (
     <>
+      {/* <NavLink to="/">
+          <Navbar.Brand>
+            <img src={cal_image} alt="logo" height="45" />
+          </Navbar.Brand>
+        </NavLink> */}
+
+      <NavLink
+        exact
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+        to="/"
+        onClick={handleNavLinkClick}
+      >
+        <i className="fas fa-home"></i>Home
+      </NavLink>
       <NavLink
         className={styles.NavLink}
         to={`/profiles/${currentUser?.profile_id}`}
@@ -58,11 +76,7 @@ const NavBar = () => {
       >
         <i className="far fa-user"></i>Profile
       </NavLink>
-      <NavLink
-        className={styles.NavLink}
-        to="/"
-        onClick={handleSignOut}
-      >
+      <NavLink className={styles.NavLink} to="/signin" onClick={handleSignOut}>
         <i className="fas fa-sign-out-alt"></i>Sign out
       </NavLink>
     </>
@@ -96,19 +110,19 @@ const NavBar = () => {
       fixed="top"
       expanded={navExpanded}
       onToggle={(expanded) => setNavExpanded(expanded)}
-      ref={navRef} // ref here for collapsing 
+      ref={navRef} // ref here for collapsing
     >
       <Container>
-        <NavLink to="/">
+        {/* <NavLink to="/">
           <Navbar.Brand>
             <img src={cal_image} alt="logo" height="45" />
           </Navbar.Brand>
-        </NavLink>
+        </NavLink> */}
         {currentUser && addTask}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto text-left">
-            <NavLink
+            {/* <NavLink
               exact
               className={styles.NavLink}
               activeClassName={styles.Active}
@@ -116,7 +130,7 @@ const NavBar = () => {
               onClick={handleNavLinkClick}
             >
               <i className="fas fa-home"></i>Home
-            </NavLink>
+            </NavLink> */}
             {currentUser ? loggedInIcons : loggedOutIcons}
           </Nav>
         </Navbar.Collapse>
