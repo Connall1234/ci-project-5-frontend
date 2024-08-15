@@ -107,7 +107,7 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
       {selectedDay && (
         <DayView
           date={selectedDay}
-          tasks={tasks.filter(task => isSameDay(new Date(task.start_date), selectedDay))} // Pass filtered tasks
+          tasks={tasks.filter(task => isSameDay(new Date(task.start_date), selectedDay))} 
           onTaskUpdate={onTaskUpdate}
           onTaskDelete={onTaskDelete}
         />
