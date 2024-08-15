@@ -99,7 +99,7 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
     <div className={styles.calendar}>
       <div className={styles.header}>
         <button onClick={handlePrevMonth}>Previous</button>
-        <div>{format(currentMonth, 'MMMM yyyy')}</div>
+        <div className={styles.headerMonth}>{format(currentMonth, 'MMMM yyyy')}</div>
         <button onClick={handleNextMonth}>Next</button>
       </div>
       {renderDaysOfWeek()}

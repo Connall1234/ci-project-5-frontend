@@ -1,89 +1,170 @@
-
 .calendar {
-    font-family: Arial, sans-serif;
-    max-width: 100%;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 1200px; 
+  margin: 20px auto; 
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; 
+  background-color: #fff; 
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.header button {
+  background-color: #007bff; 
+  border: none;
+  color: white;
+  padding: 8px 12px; 
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem; 
+  transition: background-color 0.3s;
+  flex: 0 0 auto; 
+  width: 30%;
+
+}
+
+.header button:hover {
+  background-color: #0056b3; 
+}
+
+.header .monthDisplay {
+  font-size: 1.25rem; 
+  font-weight: bold;
+  color: #333; 
+  text-align: center; 
+  flex: 1 1 auto; 
+}
+
+.headerMonth {
+  font-weight: bold;
+}
+
+.daysOfWeek {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.dayOfWeek {
+  text-align: center;
+  font-weight: bold;
+  color: #007bff; 
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.day {
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #f9f9f9; 
+  position: relative;
+  border-radius: 4px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  height: 100px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.day:hover {
+  background-color: #e3f2fd; 
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.date {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.tasks {
+  margin-top: 5px;
+}
+
+.currentDay {
+  background-color: #c1e1c5; 
+  border: 2px solid #4caf50; 
+}
+
+.taskList {
+  margin-top: 5px;
+}
+
+.task {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.spinner::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  border: 0.4rem solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-left-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .daysOfWeek {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .dayOfWeek {
-    flex: 1;
-    text-align: center;
-    font-weight: bold;
-  }
-  
+}
+
+
+@media (max-width: 768px) {
   .daysGrid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(7, minmax(0, 1fr)); 
   }
-  
+
   .day {
-    border: 1px solid #ccc;
-    padding: 10px;
-    background-color: #f0f0f0;
-    position: relative;
-  }
-  
-  .date {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .tasks {
-    margin-top: 5px;
-  }
-  
-  .currentDay {
-    background-color: #c1e1c5; /* Light green background for the current day */
+    height: 80px; 
   }
 
-  .spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    font-size: 1.5rem;
-    color: #333;
+  .header button {
+    padding: 6px 10px;
+    font-size: 0.75rem;
   }
-  
-  .spinner::after {
-    content: '';
-    display: block;
-    width: 3rem;
-    height: 3rem;
-    border: 0.4rem solid rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    border-left-color: transparent;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .daysGrid {
-      grid-template-columns: repeat(7, minmax(0, 1fr)); /* Adjust grid columns for smaller screens */
-    }
-  }
-  
+}
 
-  
+@media (max-width: 480px) {
+  .header button {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+
+  .daysGrid {
+    grid-template-columns: repeat(7, minmax(0, 1fr)); 
+  }
+
+  .day {
+    height: 70px; 
+  }
+}
