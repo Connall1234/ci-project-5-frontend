@@ -89,11 +89,14 @@ function SignInForm() {
                 </Alert>
               ))}
             </Form>
-            <Container className={`mt-3 ${appStyles.Content}`}>
-              <Link className={styles.Link} to="/signup">
-                Don't have an account? <span>Sign up now!</span>
-              </Link>
-            </Container>
+            <Row className="no-gutters m-1">
+              <Col className={"d-flex align-items-center justify-content-center"}>
+                <Link className={styles.Link} to="/signup">
+                  Don't have an account? <span>Sign up now!</span>
+                </Link>
+              </Col>
+            </Row>
+
           </Container>
         </Col>
         <Col md={6} className={`d-none d-md-flex align-items-center justify-content-center ${styles.ImageCol}`}>

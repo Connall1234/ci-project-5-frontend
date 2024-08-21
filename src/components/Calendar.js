@@ -35,21 +35,12 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
   };
 
   const renderTasksForDay = (date) => {
-    const tasksForDay = tasks.filter(task => isSameDay(new Date(task.start_date), date));
+    const formattedDate = format(date, 'yyyy-MM-dd');
+    const tasksForDay = tasks.filter(task => task.start_date === formattedDate);
 
-    if (tasksForDay.length === 0) {
-      return null;
-    }
+    console.log(`Tasks for ${formattedDate}:`, tasksForDay);
 
-    return (
-      <div className={styles.taskList}>
-        {tasksForDay.map(task => (
-          <div key={task.id} className={styles.task}>
-            {task.title}
-          </div>
-        ))}
-      </div>
-    );
+    return tasksForDay;
   };
 
   const renderDaysOfWeek = () => {
@@ -70,20 +61,36 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
     const days = [];
     const startDay = getDay(startDate);
 
+    // show empty days
     for (let i = 0; i < startDay; i++) {
       days.push(<div key={`empty-${i}`} className={styles.emptyDay} />);
     }
 
     daysInMonth.forEach((date, index) => {
       const isCurrentDay = isSameDay(date, new Date());
+
+      // Get tasks for the current date
+      const tasksForDay = renderTasksForDay(date);
+
+      // Show number of tasks for the current date
+      const numberOfTasks = tasksForDay.length;
+
+
+
       days.push(
         <div
           key={index}
-          className={`${styles.day} ${isCurrentDay ? styles.currentDay : ''}`}
+          className={`${styles.day} ${isCurrentDay ? styles.currentDay : ''} ${numberOfTasks > 0 ? styles.hasTasks : ''}`}
           onClick={() => handleDayClick(date)}
         >
           <div className={styles.date}>{format(date, 'd')}</div>
-          <div className={styles.tasks}>{renderTasksForDay(date)}</div>
+          <div className={styles.tasksContainer}>
+            {numberOfTasks > 0 && (
+              <div className={styles.taskCount}>
+                {numberOfTasks} task{numberOfTasks > 1 ? 's' : ''} today
+              </div>
+            )}
+          </div>
         </div>
       );
     });
@@ -107,7 +114,7 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
       {selectedDay && (
         <DayView
           date={selectedDay}
-          tasks={tasks.filter(task => isSameDay(new Date(task.start_date), selectedDay))} 
+          tasks={renderTasksForDay(selectedDay)} // Display tasks for selected day 
           onTaskUpdate={onTaskUpdate}
           onTaskDelete={onTaskDelete}
         />

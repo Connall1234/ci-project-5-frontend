@@ -38,7 +38,7 @@ const SignUpForm = () => {
 
   return (
     <Container fluid className="p-0">
-      <Row className="min-vh-100 no-gutters align-items-center">
+      <Row className=" no-gutters align-items-center">
         <Col md={6} className={`d-flex align-items-center justify-content-center ${styles.FormCol}`}>
           <Container className={`${appStyles.Content} p-4`}>
             <h1 className={styles.Header}>Sign Up</h1>
@@ -130,11 +130,13 @@ const SignUpForm = () => {
                 </Alert>
               ))}
             </Form>
-          </Container>
-          <Container className={`mt-3 ${appStyles.Content}`}>
-            <Link className={styles.Link} to="/signin">
-              Already have an account? <span>Sign In</span>
-            </Link>
+            <Row className="no-gutters m-1">
+              <Col className={"d-flex align-items-center justify-content-center"}>
+                <Link className={styles.Link} to="/signin">
+                  Already have an account? <span>Sign In</span>
+                </Link>
+              </Col>
+            </Row>
           </Container>
         </Col>
         <Col md={6} className={`d-none d-md-flex align-items-center justify-content-center ${styles.ImageCol}`}>
