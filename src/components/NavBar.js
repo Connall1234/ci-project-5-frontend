@@ -19,6 +19,7 @@ const NavBar = () => {
     try {
       await axios.post("dj-rest-auth/logout/");
       setCurrentUser(null);
+      handleNavLinkClick(); 
     } catch (err) {
       console.log(err);
     }
@@ -119,9 +120,9 @@ const NavBar = () => {
           </Navbar.Brand>
         </NavLink> */}
         {currentUser && addTask}
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className="ml-auto" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto text-left">
+          <Nav className="ml-auto text-center">
             {/* <NavLink
               exact
               className={styles.NavLink}
