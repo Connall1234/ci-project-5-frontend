@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import { Form, Button, Image, Col, Row, Container, Alert } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Image,
+  Col,
+  Row,
+  Container,
+  Alert,
+} from "react-bootstrap";
 import styles from "../../styles/SignUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
-    first_name: '',
-    last_name: '',
-    username: '',
-    password1: '',
-    password2: '',
+    first_name: "",
+    last_name: "",
+    username: "",
+    password1: "",
+    password2: "",
   });
 
   const { first_name, last_name, username, password1, password2 } = signUpData;
@@ -39,9 +47,12 @@ const SignUpForm = () => {
   return (
     <Container fluid className="p-0">
       <Row className=" no-gutters align-items-center">
-        <Col md={6} className={`d-flex align-items-center justify-content-center ${styles.FormCol}`}>
+        <Col
+          md={6}
+          className={`d-flex align-items-center justify-content-center ${styles.FormCol}`}
+        >
           <Container className={`${appStyles.Content} p-4`}>
-            <h1 className={styles.Header}>Sign Up</h1>
+            <h1 className={styles.Header}>Sign Up To OnTrack, For Daily Organizing</h1>
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="first_name">
                 <Form.Label className="sr-only">First Name</Form.Label>
@@ -131,15 +142,29 @@ const SignUpForm = () => {
               ))}
             </Form>
             <Row className="no-gutters m-1">
-              <Col className={"d-flex align-items-center justify-content-center"}>
+              <Col
+                className={"d-flex align-items-center justify-content-center"}
+              >
                 <Link className={styles.Link} to="/signin">
                   Already have an account? <span>Sign In</span>
                 </Link>
               </Col>
             </Row>
+            <Row>
+              <Col
+                className={"d-flex align-items-center justify-content-center"}
+              >
+                <Link className={styles.Link} to="/aboutus">
+                  Click here to learn more about us!
+                </Link>
+              </Col>
+            </Row>
           </Container>
         </Col>
-        <Col md={6} className={`d-none d-md-flex align-items-center justify-content-center ${styles.ImageCol}`}>
+        <Col
+          md={6}
+          className={`d-none d-md-flex align-items-center justify-content-center ${styles.ImageCol}`}
+        >
           <Image
             className={`${appStyles.FillerImage} img-fluid`}
             src="https://logowik.com/content/uploads/images/calendar5662.jpg"

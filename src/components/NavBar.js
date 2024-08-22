@@ -77,9 +77,18 @@ const NavBar = () => {
       >
         <i className="far fa-user"></i>Profile
       </NavLink>
+      <NavLink
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+        to="/aboutus"
+        onClick={handleNavLinkClick}
+      >
+        <i className="fas fa-info-circle"></i>About
+      </NavLink>
       <NavLink className={styles.NavLink} to="/signin" onClick={handleSignOut}>
         <i className="fas fa-sign-out-alt"></i>Sign out
       </NavLink>
+
     </>
   );
 
@@ -100,6 +109,14 @@ const NavBar = () => {
         onClick={handleNavLinkClick}
       >
         <i className="fas fa-user-plus"></i>Sign up
+      </NavLink>
+      <NavLink
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+        to="/aboutus"
+        onClick={handleNavLinkClick}
+      >
+        <i className="fas fa-info-circle"></i>About
       </NavLink>
     </>
   );

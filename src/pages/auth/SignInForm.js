@@ -40,7 +40,7 @@ function SignInForm() {
       <Row className="no-gutters align-items-stretch">
         <Col md={6} className={`d-flex align-items-center justify-content-center ${styles.FormCol}`}>
           <Container className={`${appStyles.Content} p-4`}>
-            <h1 className={styles.Header}>Sign In</h1>
+            <h1 className={styles.Header}>Sign In To OnTrack, For Daily Organizing</h1>
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="username">
                 <Form.Label className="sr-only">Username</Form.Label>
@@ -95,6 +95,13 @@ function SignInForm() {
                   Don't have an account? <span>Sign up now!</span>
                 </Link>
               </Col>
+              </Row>
+              <Row className="no-gutters m-1">
+                <Col className={"d-flex align-items-center justify-content-center"}>
+                  <Link className={styles.Link} to="/aboutus">
+                    Click here to learn more about us!
+                  </Link>
+                </Col>
             </Row>
 
           </Container>

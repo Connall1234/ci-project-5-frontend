@@ -203,6 +203,7 @@ function EditTask() {
           <div className="mt-3">
             <Alert variant="warning">
               Are you sure you want to update this task?
+              <div className = "d-flex justify-content-between mt-2">
               <Button
                 className="ml-2"
                 variant="warning"
@@ -220,6 +221,7 @@ function EditTask() {
               >
                 No
               </Button>
+              </div>
             </Alert>
           </div>
         )}

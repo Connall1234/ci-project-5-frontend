@@ -16,6 +16,7 @@ import Profile from "./components/Profile";
 import EditProfilePage from "./pages/profile/EditProfilePage";
 import RewardsPage from "./components/RewardsPage";
 import { useCurrentUser } from "./contexts/CurrentUserContext";
+import About from "./pages/home/About";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -54,7 +55,7 @@ function App() {
           <Route exact path="/signup">
             {currentUser ? <Redirect to="/" /> : <SignUpForm />}
           </Route>
-
+          <Route exact path="/aboutus" component={About} />
           <Route exact path="/tasks/create" component={CreateTask} />
           <Route exact path="/tasks/:id/edit" component={EditTask} />
           <Route exact path="/tasks/view/:id" component={ViewTask} /> 
