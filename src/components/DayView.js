@@ -62,6 +62,9 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       setTasksState(prevTasks => prevTasks.filter(task => task.id !== taskToDelete.id));
       console.log('Task deleted successfully:', taskToDelete.id);
       setTaskToDelete(null);
+      window.location.reload();     
+      console.log("Should have pushed");
+
     } catch (err) {
       console.error('Failed to delete task', err);
     } finally {

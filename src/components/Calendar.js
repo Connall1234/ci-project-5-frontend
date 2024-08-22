@@ -38,7 +38,6 @@ const Calendar = ({ tasks, onTaskUpdate, onTaskDelete }) => {
     const formattedDate = format(date, 'yyyy-MM-dd');
     const tasksForDay = tasks.filter(task => task.start_date === formattedDate);
 
-    console.log(`Tasks for ${formattedDate}:`, tasksForDay);
 
     return tasksForDay;
   };
