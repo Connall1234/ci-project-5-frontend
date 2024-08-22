@@ -62,3 +62,6 @@ function ViewTask() {
 }
 
 export default ViewTask;
+
+// had this in jsonpack     "date-fns": "^2.16.1",
+
