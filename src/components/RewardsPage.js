@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../styles/RewardsPage.module.css"; 
+import styles from "../styles/RewardsPage.module.css"; 
 
 const RewardsPage = ({ match }) => {
   const { id } = match.params; 
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
   const [highlightedReward, setHighlightedReward] = useState(null);
+  const [overdueCount, setOverdueCount] = useState(0); 
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get(`https://project-5-backend-api-connall-3eb143768597.herokuapp.com/tasks/?owner=${id}`);
         setTasks(response.data.tasks || []);
+        setOverdueCount(response.data.overdue_count);
       } catch (error) {
         console.error('Error fetching tasks data', error);
         setError('Failed to load tasks data.');
@@ -31,7 +33,7 @@ const RewardsPage = ({ match }) => {
   }
 
   const completedTasksCount = tasks.filter(task => task.completed).length;
-  const hasNoOverdueTasks = tasks.every(task => !task.overdue);
+  const hasNoOverdueTasks = overdueCount === 0; 
 
   const rewards = [
     {
@@ -40,17 +42,17 @@ const RewardsPage = ({ match }) => {
       color: 'green',
     },
     {
-      title: '5 Tasks Complete',
+      title: 'Have 5 Tasks Complete',
       condition: completedTasksCount >= 5,
       color: 'blue',
     },
     {
-      title: '10 Tasks Complete',
+      title: 'Have 10 Tasks Complete',
       condition: completedTasksCount >= 10,
       color: 'purple',
     },
     {
-      title: 'No Overdue Tasks',
+      title: 'Have No Overdue Tasks',
       condition: hasNoOverdueTasks,
       color: 'orange',
     },
@@ -63,18 +65,18 @@ const RewardsPage = ({ match }) => {
   };
 
   return (
-    <Container className="mt-4 rewards-page">
+    <Container className={`mt-4 ${styles['rewards-page']}`}>
       <h1 className="text-center">Your Rewards</h1>
       <Row className="justify-content-center">
         {rewards.map((reward, index) => (
           <Col key={index} xs={12} md={6} lg={3} className="mb-4">
             <Card
-              className={`text-center reward-card ${reward.condition ? 'unlocked' : 'locked'} ${highlightedReward === index ? 'highlighted' : ''}`}
+              className={`text-center ${styles['reward-card']} ${reward.condition ? styles.unlocked : styles.locked} ${highlightedReward === index ? styles.highlighted : ''}`}
               style={{ backgroundColor: reward.condition ? reward.color : 'grey' }}
               onClick={() => handleCardClick(index, reward.condition)}
             >
               <Card.Body>
-                <Card.Title className={reward.condition ? 'unlocked' : 'locked'}>
+                <Card.Title className={reward.condition ? styles.unlocked : styles.locked}>
                   {reward.title} {!reward.condition && <i className="fas fa-lock"></i>}
                 </Card.Title>
                 {reward.condition ? (
