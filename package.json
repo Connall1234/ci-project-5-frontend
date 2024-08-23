@@ -56,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object",
     "eslint": "^8.57.0",
     "msw": "^0.35.0",
     "typescript": "^4.9.5"
