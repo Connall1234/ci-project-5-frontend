@@ -3,10 +3,10 @@ import { Container, Row, Col, Card, Alert, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../styles/ProfilePage.module.css"; // Adjust the path to your CSS file
+import "../styles/ProfilePage.module.css"; 
 
 const ProfilePage = (props) => {
-  const { id } = props.match.params; // Extract userId from route parameters
+  const { id } = props.match.params; 
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
 
@@ -34,7 +34,7 @@ const ProfilePage = (props) => {
     return <p className="text-center mt-4">Loading...</p>;
   }
 
-  const { owner, completed_tasks_count, image, bio } = profile;
+  const { owner, completed_tasks_count, image, bio, first_name, last_name } = profile;
 
   return (
     <Container className="mt-4 profile-page">
@@ -49,6 +49,9 @@ const ProfilePage = (props) => {
             />
             <Card.Body>
               <Card.Title className="profile-name">{owner}</Card.Title>
+              <Card.Text className="welcome-message">
+                Welcome back, {first_name} {last_name}!
+              </Card.Text>
               <Card.Text className="profile-bio">
                 {bio}
               </Card.Text>

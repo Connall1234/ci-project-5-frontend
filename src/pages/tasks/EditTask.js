@@ -51,6 +51,16 @@ function EditTask() {
     fetchTaskData();
   }, [id]);
 
+  useEffect(() => {
+    if (showConfirmation) {
+      
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [showConfirmation]);
+
   const handleChange = (event) => {
     setPostData({
       ...postData,
@@ -111,6 +121,7 @@ function EditTask() {
             value={title}
             onChange={handleChange}
             required
+            maxLength={15}
           />
         </Form.Group>
         {errors?.title?.map((message, idx) => (
@@ -203,24 +214,24 @@ function EditTask() {
           <div className="mt-3">
             <Alert variant="warning">
               Are you sure you want to update this task?
-              <div className = "d-flex justify-content-between mt-2">
-              <Button
-                className="ml-2"
-                variant="warning"
-                onClick={() => {
-                  setShowConfirmation(false);
-                  confirmUpdate();
-                }}
-              >
-                Yes
-              </Button>
-              <Button
-                className="ml-2"
-                variant="secondary"
-                onClick={() => setShowConfirmation(false)}
-              >
-                No
-              </Button>
+              <div className="d-flex justify-content-between mt-2">
+                <Button
+                  className="ml-2"
+                  variant="warning"
+                  onClick={() => {
+                    setShowConfirmation(false);
+                    confirmUpdate();
+                  }}
+                >
+                  Yes
+                </Button>
+                <Button
+                  className="ml-2"
+                  variant="secondary"
+                  onClick={() => setShowConfirmation(false)}
+                >
+                  No
+                </Button>
               </div>
             </Alert>
           </div>

@@ -60,10 +60,8 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       console.log('Deleting task:', taskToDelete.id);
       await axiosReq.delete(`/tasks/${taskToDelete.id}`);
       setTasksState(prevTasks => prevTasks.filter(task => task.id !== taskToDelete.id));
-      console.log('Task deleted successfully:', taskToDelete.id);
       setTaskToDelete(null);
       window.location.reload();     
-      console.log("Should have pushed");
 
     } catch (err) {
       console.error('Failed to delete task', err);
@@ -162,7 +160,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       <button onClick={handleAddTask}>Add Task</button>
 
       {taskToDelete && (
-        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', padding: '20px', backgroundColor: 'white', border: '1px solid black' }}>
+        <div className={styles.modal}>
           <p>Are you sure you want to delete this task?</p>
           <Button onClick={handleDeleteTask}>Yes</Button>
           <Button onClick={() => setTaskToDelete(null)}>No</Button>
@@ -170,7 +168,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       )}
 
       <OverlayTrigger show={showPopover} placement="bottom" overlay={popover} transition={Fade}>
-        <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}></div>
+        <div className={styles.overlay}></div>
       </OverlayTrigger>
     </div>
   );

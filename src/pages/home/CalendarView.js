@@ -7,20 +7,54 @@ const CalendarView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchTasks = async () => {
-    try {
-      const response = await axiosReq.get("/tasks/");
-      setTasks(response.data.tasks || []);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+
+    // this was the old use useEffect, caused issue with memory leak trying to debug
+
+  // const fetchTasks = async () => {
+  //   try {
+  //     const response = await axiosReq.get("/tasks/");
+  //     setTasks(response.data.tasks || []);
+  //   } catch (err) {
+  //     setError(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  
+  // useEffect(() => {
+  //   fetchTasks();
+  // }, []);
 
   useEffect(() => {
+    let isMounted = true; 
+  
+    const fetchTasks = async () => {
+      try {
+        const response = await axiosReq.get("/tasks/");
+        if (isMounted) { 
+          setTasks(response.data.tasks || []);
+        }
+      } catch (err) {
+        if (isMounted) { 
+          setError(err);
+        }
+      } finally {
+        if (isMounted) { 
+          setLoading(false);
+        }
+      }
+    };
+  
     fetchTasks();
+  
+    // 3. Cleanup function to set flag to false when component unmounts
+    return () => {
+      isMounted = false;
+    };
   }, []);
+  
+
 
   const handleTaskUpdate = async (updatedTask) => {
     try {

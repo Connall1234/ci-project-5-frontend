@@ -40,6 +40,16 @@ function CreateTask() {
     setIsPastDate(taskStartDate.isBefore(today));
   }, [start_date]);
 
+  useEffect(() => {
+    if (showConfirmation) {
+      
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [showConfirmation]);
+
   const handleChange = (event) => {
     setPostData({
       ...postData,
@@ -102,6 +112,7 @@ function CreateTask() {
                 value={title}
                 onChange={handleChange}
                 required
+                maxLength={15} 
               />
             </Form.Group>
             {errors?.title?.map((message, idx) => (

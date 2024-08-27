@@ -99,3 +99,30 @@
 }
 
 
+.overlay {
+  position: absolute;
+  bottom: 40px;
+  right: 10px;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: white;
+  border: 1px solid black;
+}
+
+  @media (max-width: 480px) {
+    .taskBar i {
+      padding: 0px;
+      font-size: 20x;
+    }
+    .taskBar span {
+      padding: 0px;
+      font-size: 13px;
+    }
+
+}
