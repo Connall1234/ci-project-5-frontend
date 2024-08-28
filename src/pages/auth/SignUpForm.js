@@ -16,14 +16,12 @@ import appStyles from "../../App.module.css";
 
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
-    first_name: "",
-    last_name: "",
     username: "",
     password1: "",
     password2: "",
   });
 
-  const { first_name, last_name, username, password1, password2 } = signUpData;
+  const { username, password1, password2 } = signUpData;
   const [errors, setErrors] = useState({});
   const history = useHistory();
 
@@ -54,30 +52,6 @@ const SignUpForm = () => {
           <Container className={`${appStyles.Content} p-4`}>
             <h1 className={styles.Header}>Sign Up To OnTrack, For Daily Organizing</h1>
             <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="first_name">
-                <Form.Label className="sr-only">First Name</Form.Label>
-                <Form.Control
-                  className={styles.Input}
-                  type="text"
-                  placeholder="First Name"
-                  name="first_name"
-                  value={first_name}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group controlId="last_name">
-                <Form.Label className="sr-only">Last Name</Form.Label>
-                <Form.Control
-                  className={styles.Input}
-                  type="text"
-                  placeholder="Last Name"
-                  name="last_name"
-                  value={last_name}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
               <Form.Group controlId="username">
                 <Form.Label className="sr-only">Username</Form.Label>
                 <Form.Control

@@ -34,7 +34,7 @@ const ProfilePage = (props) => {
     return <p className="text-center mt-4">Loading...</p>;
   }
 
-  const { owner, completed_tasks_count, image, bio, first_name, last_name } = profile;
+  const { owner, completed_tasks_count, image, bio, } = profile;
 
   return (
     <Container className="mt-4 profile-page">
@@ -48,9 +48,8 @@ const ProfilePage = (props) => {
               style={{ width: '200px', height: '200px', objectFit: 'cover', margin: '0 auto', borderRadius: '50%' }}
             />
             <Card.Body>
-              <Card.Title className="profile-name">{owner}</Card.Title>
               <Card.Text className="welcome-message">
-                Welcome back, {first_name} {last_name}!
+                Welcome back, {owner}!
               </Card.Text>
               <Card.Text className="profile-bio">
                 {bio}

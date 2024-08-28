@@ -9,10 +9,8 @@ const EditProfile = () => {
   const { id } = useParams(); 
   const history = useHistory();
   const [profile, setProfile] = useState({
-    first_name: '',
-    last_name: '',
     bio: '',
-    image: '',
+    image: null,
   });
   const [error, setError] = useState(null);
 
@@ -20,7 +18,10 @@ const EditProfile = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(`/profiles/${id}`);
-        setProfile(response.data);
+        setProfile({
+          bio: response.data.bio || '',
+          image: null, // Handle image separately
+        });
       } catch (error) {
         console.error('Error fetching profile data', error);
         setError('Failed to load profile data.');
@@ -42,21 +43,17 @@ const EditProfile = () => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      setProfile((prevProfile) => ({
-        ...prevProfile,
-        image: file,
-      }));
-    }
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      image: file,
+    }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('first_name', profile.first_name);
-    formData.append('last_name', profile.last_name);
     formData.append('bio', profile.bio);
-    if (profile.image instanceof File) {
+    if (profile.image) { // Check if image is selected
       formData.append('image', profile.image);
     }
 
@@ -80,31 +77,14 @@ const EditProfile = () => {
           <h2>Edit Profile</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="first_name">
-              <Form.Label>First Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="first_name"
-                value={profile.first_name}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="last_name">
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="last_name"
-                value={profile.last_name}
-                onChange={handleChange}
-              />
-            </Form.Group>
+
             <Form.Group controlId="bio">
               <Form.Label>Bio</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
                 name="bio"
-                value={profile.bio}
+                value={profile.bio || ''} // Ensure value is never null
                 onChange={handleChange}
               />
             </Form.Group>
