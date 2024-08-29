@@ -1,128 +1,123 @@
-.dayView {
-  padding: 20px;
-  position: relative;
+/* Styles for the day view and task management */
 
+.dayView {
+  padding: 20px; /* Adds padding inside the day view container */
+  position: relative; /* Allows positioning of child elements absolutely relative to this container */
 }
 
 .tasks {
-  margin-top: 20px;
+  margin-top: 20px; /* Adds space above the tasks section */
 }
 
 .taskList {
-  list-style-type: none;
-  padding: 0;
+  list-style-type: none; /* Removes bullet points from the task list */
+  padding: 0; /* Removes default padding */
 }
 
 .taskBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid #ddd;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  position: relative;
+  display: flex; /* Aligns child elements in a flexible layout */
+  justify-content: space-between; /* Distributes space between child elements */
+  align-items: center; /* Aligns child elements vertically in the center */
+  padding: 10px; /* Adds padding inside the task bar */
+  border: 1px solid #ddd; /* Adds a light gray border around the task bar */
+  margin-bottom: 10px; /* Adds space below each task bar */
+  border-radius: 5px; /* Rounds the corners of the task bar */
+  position: relative; /* Allows positioning of pseudo-elements and child elements absolutely relative to this task bar */
 }
 
 .taskBar::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 50%;
-  height: 4px;
-  background-color: transparent;
+  content: ''; /* Inserts an empty pseudo-element */
+  position: absolute; /* Positions the pseudo-element absolutely within the task bar */
+  bottom: 0; /* Aligns the pseudo-element to the bottom of the task bar */
+  left: 0; /* Aligns the pseudo-element to the left of the task bar */
+  width: 50%; /* Sets the width of the pseudo-element to 50% of the task bar */
+  height: 4px; /* Sets the height of the pseudo-element */
+  background-color: transparent; /* Sets the initial background color to transparent */
 }
 
 .priority-low::after {
-  background-color: green;
+  background-color: green; /* Sets the background color of the pseudo-element to green for low-priority tasks */
 }
 
 .priority-medium::after {
-  background-color: yellow;
+  background-color: yellow; /* Sets the background color of the pseudo-element to yellow for medium-priority tasks */
 }
 
 .priority-high::after {
-  background-color: red;
+  background-color: red; /* Sets the background color of the pseudo-element to red for high-priority tasks */
 }
 
 .taskActions {
-  display: flex;
-  gap: 10px;
+  display: flex; /* Aligns child elements in a flexible layout */
+  gap: 10px; /* Adds space between child elements */
 }
 
 .taskActions button {
-  background: none;
-  border: none;
-  cursor: pointer;
+  background: none; /* Removes the default background of buttons */
+  border: none; /* Removes the border of buttons */
+  cursor: pointer; /* Changes the cursor to a pointer when hovering over the button */
 }
 
 .confirmationDialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  z-index: 1000;
+  position: fixed; /* Positions the dialog fixed relative to the viewport */
+  top: 50%; /* Centers the dialog vertically */
+  left: 50%; /* Centers the dialog horizontally */
+  transform: translate(-50%, -50%); /* Centers the dialog exactly at the center of the viewport */
+  background: white; /* Sets the background color of the dialog to white */
+  padding: 20px; /* Adds padding inside the dialog */
+  border: 1px solid #ddd; /* Adds a light gray border around the dialog */
+  border-radius: 5px; /* Rounds the corners of the dialog */
+  z-index: 1000; /* Ensures the dialog appears above other content */
 }
 
 .completed {
-  text-decoration: line-through;
+  text-decoration: line-through; /* Strikes through the text to indicate completion */
 }
 
 .overdue {
-  color: red;
+  color: red; /* Changes the text color to red to indicate an overdue task */
 }
-
-
 
 .taskBar.overdue {
-  background-color: #f8d7da; 
-  border-left: 4px solid #dc3545; 
+  background-color: #f8d7da; /* Sets a light pink background color for overdue tasks */
+  border-left: 4px solid #dc3545; /* Adds a red border on the left side of the task bar for overdue tasks */
 }
 
-
-
-
 .confirmationDialog {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-  visibility: hidden;
+  opacity: 0; /* Sets the initial opacity of the confirmation dialog to 0 (hidden) */
+  transition: opacity 0.5s ease-in-out; /* Smoothly transitions the opacity over 0.5 seconds */
+  visibility: hidden; /* Hides the dialog from view */
 }
 
 .confirmationDialog.visible {
-  opacity: 1;
-  visibility: visible;
+  opacity: 1; /* Makes the dialog fully opaque */
+  visibility: visible; /* Makes the dialog visible */
 }
 
-
 .overlay {
-  position: absolute;
-  bottom: 40px;
-  right: 10px;
+  position: absolute; /* Positions the overlay absolutely within its parent container */
+  bottom: 40px; /* Positions the overlay 40px from the bottom */
+  right: 10px; /* Positions the overlay 10px from the right */
 }
 
 .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  background-color: white;
-  border: 1px solid black;
+  position: fixed; /* Positions the modal fixed relative to the viewport */
+  top: 50%; /* Centers the modal vertically */
+  left: 50%; /* Centers the modal horizontally */
+  transform: translate(-50%, -50%); /* Centers the modal exactly at the center of the viewport */
+  padding: 20px; /* Adds padding inside the modal */
+  background-color: white; /* Sets the background color of the modal to white */
+  border: 1px solid black; /* Adds a black border around the modal */
 }
 
-  @media (max-width: 480px) {
-    .taskBar i {
-      padding: 0px;
-      font-size: 20x;
-    }
-    .taskBar span {
-      padding: 0px;
-      font-size: 13px;
-    }
+@media (max-width: 480px) {
+  .taskBar i {
+    padding: 0; /* Removes padding from icons inside the task bar */
+    font-size: 20px; /* Sets the font size of icons to 20px */
+  }
 
+  .taskBar span {
+    padding: 0; /* Removes padding from text inside the task bar */
+    font-size: 13px; /* Sets the font size of text to 13px */
+  }
 }

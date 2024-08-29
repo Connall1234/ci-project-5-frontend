@@ -1,29 +1,36 @@
+/* Container for the loading screen */
+
 .LoadingContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f8f9fa; /* Same app color */
-  }
-  
-  .Spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1); /* Give it border */
-    border-top: 4px solid #007bff; /* Our main color */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 1rem;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .LoadingText {
-    color: #007bff; /* Match our main color */
-    font-size: 1.5rem;
-  }
-  
+  display: flex; /* Enables flexbox layout for centering content */
+  flex-direction: column; /* Arranges child elements vertically */
+  align-items: center; /* Centers child elements horizontally */
+  justify-content: center; /* Centers child elements vertically */
+  height: 100vh; /* Takes up the full viewport height */
+  background-color: #f8f9fa; /* Sets a light background color */
+}
+
+/* Spinner animation for loading state */
+
+.Spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1); /* Light gray border around the spinner */
+  border-top: 4px solid #007bff; /* Blue top border to indicate loading */
+  border-radius: 50%; /* Makes the spinner circular */
+  width: 40px; /* Sets the width of the spinner */
+  height: 40px; /* Sets the height of the spinner */
+  animation: spin 1s linear infinite; /* Applies the spin animation */
+  margin-bottom: 1rem; /* Adds space below the spinner */
+}
+
+/* Keyframes for the spinning animation */
+
+@keyframes spin {
+  0% { transform: rotate(0deg); } /* Start from 0 degrees */
+  100% { transform: rotate(360deg); } /* End at 360 degrees for a full rotation */
+}
+
+/* Text styling for loading messages */
+
+.LoadingText {
+  color: #007bff; /* Sets the text color to match the main theme color */
+  font-size: 1.5rem; /* Increases font size for visibility */
+}

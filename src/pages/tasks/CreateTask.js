@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useHistory, useLocation } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import moment from "moment";
-import "../../styles/CreateTask.module.css"; // Make sure to adjust the path as needed
+import "../../styles/CreateTask.module.css"; // Ensure the path is correct
 
 function CreateTask() {
   const [errors, setErrors] = useState({});
@@ -16,14 +16,15 @@ function CreateTask() {
     title: "",
     description: "",
     start_date: new Date(),
-    priority: "M", // Default
-    category: "O", // Default
+    priority: "M", // Default priority
+    category: "O", // Default category
   });
 
   const { title, description, start_date, priority, category } = postData;
   const history = useHistory();
   const location = useLocation();
 
+  // Effect to initialize start_date from location state if available
   useEffect(() => {
     if (location.state && location.state.date) {
       setPostData((prevData) => ({
@@ -33,16 +34,16 @@ function CreateTask() {
     }
   }, [location.state]);
 
+  // Effect to check if start_date is in the past
   useEffect(() => {
-    // Check if start_date is in the past
     const today = moment().startOf("day");
     const taskStartDate = moment(start_date).startOf("day");
     setIsPastDate(taskStartDate.isBefore(today));
   }, [start_date]);
 
+  // Effect to scroll to the confirmation message if shown
   useEffect(() => {
     if (showConfirmation) {
-      
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth'
@@ -50,6 +51,7 @@ function CreateTask() {
     }
   }, [showConfirmation]);
 
+  // Handler for form input changes
   const handleChange = (event) => {
     setPostData({
       ...postData,
@@ -57,6 +59,7 @@ function CreateTask() {
     });
   };
 
+  // Handler for date picker changes
   const handleDateChange = (date) => {
     setPostData({
       ...postData,
@@ -64,6 +67,7 @@ function CreateTask() {
     });
   };
 
+  // Handler for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -79,17 +83,18 @@ function CreateTask() {
     }
   };
 
+  // Function to submit the task to the server
   const submitTask = async () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("start_date", moment(start_date).format("YYYY-MM-DD")); // Format for backend with no time
+    formData.append("start_date", moment(start_date).format("YYYY-MM-DD")); // Format date for backend
     formData.append("priority", priority);
     formData.append("category", category);
 
     try {
       await axiosReq.post("/tasks/", formData);
-      history.push("/");
+      history.push("/"); // Redirect to homepage upon success
     } catch (err) {
       console.log(err);
       if (err.response?.status !== 401) {

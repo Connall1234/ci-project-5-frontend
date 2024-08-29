@@ -1,40 +1,48 @@
+/* General Styles for the Application */
+
 .App {
-    font-family: "DM Sans", sans-serif;
-    background-color: #f8f8f8;
-    min-height: 100vh;
-  }
+  font-family: "DM Sans", sans-serif; /* Sets a clean, modern font for the entire app */
+  background-color: #f8f8f8; /* Provides a light gray background color for the app */
+  min-height: 100vh; /* Ensures the app takes up at least the full height of the viewport */
+}
 
 .Main {
-    padding-top: 81px;
+  padding-top: 81px; /* Adds top padding to the main content, likely to offset a fixed header or navigation */
 }
-  
+
+/* Universal Styles */
+
 * {
-    box-sizing: border-box;
-  }
-  
+  box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+}
+
+/* Link Styles */
+
 a {
-    color: #555555;
-    transition: color ease-in-out 0.3s;
-  }
-  
+  color: #555555; /* Sets the default text color for links to a dark gray */
+  transition: color ease-in-out 0.3s; /* Smoothly transitions the color change over 0.3 seconds */
+}
+
 a:hover {
-    text-decoration: none;
-  }
-  
+  text-decoration: none; /* Removes the underline from links on hover */
+}
+
 a:hover i {
-    color: #2142b2;
-    transition: color ease-in-out 0.3s;
-  }
-  
+  color: #2142b2; /* Changes the icon color to a specific blue when hovering over a link */
+  transition: color ease-in-out 0.3s; /* Smoothly transitions the color change over 0.3 seconds */
+}
+
+/* Icon Styles */
+
 i {
-    color: #cfced3;
-    font-size: 1.6rem;
-    padding: 7px;
-    vertical-align: middle;
-  }
-  
+  color: #cfced3; /* Sets a light gray color for icons */
+  font-size: 1.6rem; /* Increases the font size of icons for better visibility */
+  padding: 7px; /* Adds padding around icons for spacing */
+  vertical-align: middle; /* Aligns the icon vertically in the middle of the line */
+}
+
 i:hover {
-    cursor: pointer;
-    transition: color ease-in-out 0.3s;
-    color: #2142b2;
-  }
+  cursor: pointer; /* Changes the cursor to a pointer to indicate the icon is clickable */
+  transition: color ease-in-out 0.3s; /* Smoothly transitions the color change over 0.3 seconds */
+  color: #2142b2; /* Changes the icon color to a specific blue when hovered */
+}

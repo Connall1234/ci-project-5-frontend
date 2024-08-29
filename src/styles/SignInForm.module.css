@@ -1,0 +1,44 @@
+/* Styles for the Sign-In page */
+
+.SignInContainer {
+  overflow: hidden; /* Prevents content from spilling outside the container */
+}
+
+.FormCol {
+  background-color: #f8f9fa; /* Sets a light gray background color for the form column */
+  border-right: 1px solid #dee2e6; /* Adds a light gray border to the right of the form column */
+}
+
+.Header {
+  font-size: 2rem; /* Sets the font size for the header */
+  font-weight: 500; /* Sets a medium weight for the header text */
+  margin-bottom: 1.5rem; /* Adds margin below the header for spacing */
+  text-align: center; /* Centers the header text */
+}
+
+.Input {
+  border-radius: 0.25rem; /* Rounds the corners of input fields slightly */
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.075); /* Adds a subtle inner shadow to input fields for depth */
+  margin-bottom: 1rem; /* Adds margin below input fields for spacing */
+}
+
+.Link {
+  text-align: center; /* Centers the link text */
+  color: #007bff; /* Sets the text color of the link to a shade of blue */
+  text-decoration: none; /* Removes underline from the link */
+}
+
+.Link span {
+  font-weight: bold; /* Makes the text within the span bold */
+}
+
+.ImageCol {
+  background: #e9ecef; /* Sets a light gray background for the image column */
+  height: 100%; /* Ensures the image column takes up the full height of its container */
+}
+
+@media (max-width: 767.98px) {
+  .ImageCol {
+    display: none; /* Hides the image column on screens smaller than 768px */
+  }
+}

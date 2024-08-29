@@ -1,15 +1,17 @@
+/* Styles for the task creation container and form elements */
+
 .create-task-container {
-  margin-top: 20px;
+  margin-top: 20px; /* Adds space above the task creation container */
 }
 
 .form-control {
-  width: 100%;
+  width: 100%; /* Ensures form controls (input fields, selects) take the full width of their container */
 }
 
 textarea {
-  resize: none;
+  resize: none; /* Disables resizing of textareas by the user */
 }
 
 button {
-  width: 48%;
+  width: 48%; /* Sets the width of buttons to 48% of their container, allowing for two buttons to sit side by side with some space in between */
 }

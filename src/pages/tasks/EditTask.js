@@ -7,11 +7,16 @@ import { useHistory, useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 
 function EditTask() {
+  // State to manage validation errors
   const [errors, setErrors] = useState({});
+  // State to check if the selected date is in the past
   const [isPastDate, setIsPastDate] = useState(false);
+  // State to show or hide the confirmation alert before updating
   const [showConfirmation, setShowConfirmation] = useState(false);
+  // State to manage loading state
   const [loading, setLoading] = useState(true);
 
+  // State to hold the task data
   const [postData, setPostData] = useState({
     title: "",
     description: "",
@@ -21,15 +26,17 @@ function EditTask() {
   });
 
   const { title, description, start_date, priority, category } = postData;
-  const history = useHistory();
-  const { id } = useParams();
+  const history = useHistory(); // Hook to navigate programmatically
+  const { id } = useParams(); // Hook to get the task ID from URL parameters
 
+  // Effect to fetch the task data when the component mounts or ID changes
   useEffect(() => {
     const fetchTaskData = async () => {
       try {
         const { data } = await axiosReq.get(`/tasks/${id}`);
         const fetchedStartDate = moment(data.start_date).toDate();
 
+        // Set fetched data into state
         setPostData({
           title: data.title,
           description: data.description,
@@ -38,22 +45,23 @@ function EditTask() {
           category: data.category,
         });
 
+        // Check if the fetched start date is before today's date
         const today = moment().startOf("day");
         const taskStartDate = moment(fetchedStartDate).startOf("day");
         setIsPastDate(taskStartDate.isBefore(today));
       } catch (err) {
-        console.log(err);
+        console.log(err); // Handle errors (e.g., network issues)
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading state to false after data is fetched
       }
     };
 
     fetchTaskData();
   }, [id]);
 
+  // Effect to scroll to the bottom when confirmation is shown
   useEffect(() => {
     if (showConfirmation) {
-      
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth'
@@ -61,6 +69,7 @@ function EditTask() {
     }
   }, [showConfirmation]);
 
+  // Handler for input field changes
   const handleChange = (event) => {
     setPostData({
       ...postData,
@@ -68,28 +77,34 @@ function EditTask() {
     });
   };
 
+  // Handler for date picker changes
   const handleDateChange = (date) => {
     setPostData({
       ...postData,
       start_date: date,
     });
 
+    // Update isPastDate state based on the new date
     const today = moment().startOf("day");
     const taskStartDate = moment(date).startOf("day");
     setIsPastDate(taskStartDate.isBefore(today));
   };
 
+  // Handler for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    // Check for required fields
     if (!title || !start_date) {
       setErrors({ general: ["Please fill in all required fields."] });
       return;
     }
 
+    // Show confirmation alert before making the update
     setShowConfirmation(true);
   };
 
+  // Confirm update and make the PUT request to update task data
   const confirmUpdate = async () => {
     const formData = new FormData();
     formData.append("title", title);
@@ -100,11 +115,11 @@ function EditTask() {
 
     try {
       await axiosReq.put(`/tasks/${id}`, formData);
-      history.push("/");
+      history.push("/"); // Navigate to the home page after successful update
     } catch (err) {
-      console.log(err);
+      console.log(err); // Handle errors during the update
       if (err.response?.status !== 401) {
-        setErrors(err.response?.data);
+        setErrors(err.response?.data); // Set validation errors from server response
       }
     }
   };

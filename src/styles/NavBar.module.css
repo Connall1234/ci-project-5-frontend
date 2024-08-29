@@ -1,13 +1,18 @@
+/* Styles for the navigation bar */
+
 .NavBar {
-  background-color: #ffffff;
-  border: 1px solid #dadadf;
+  background-color: #ffffff; /* Sets the background color of the navigation bar to white */
+  border: 1px solid #dadadf; /* Adds a light gray border around the navigation bar */
 }
+
+/* Styles for navigation links */
 
 .NavLink {
-  padding: 5px;
+  padding: 5px; /* Adds padding around navigation links for spacing */
 }
+
+/* Styles for active navigation links */
 
 .Active i {
-  color: #2142b2;
+  color: #2142b2; /* Changes the icon color to a specific shade of blue when active */
 }
-

@@ -3,33 +3,33 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../../styles/EditProfilePage.module.css"
+import "../../styles/EditProfilePage.module.css";
 
 const EditProfile = () => {
-  const { id } = useParams(); 
-  const history = useHistory();
+  const { id } = useParams(); // Extracts profile ID from URL parameters
+  const history = useHistory(); // Used to navigate programmatically
   const [profile, setProfile] = useState({
     bio: '',
     image: null,
-  });
-  const [error, setError] = useState(null);
+  }); // State to manage profile data
+  const [error, setError] = useState(null); // State to manage error messages
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(`/profiles/${id}`);
         setProfile({
-          bio: response.data.bio || '',
-          image: null, // Handle image separately
+          bio: response.data.bio || '', // Set bio from response or default to empty string
+          image: null, // Image is handled separately
         });
       } catch (error) {
         console.error('Error fetching profile data', error);
-        setError('Failed to load profile data.');
+        setError('Failed to load profile data.'); // Set error message if fetching fails
       }
     };
 
     if (id) {
-      fetchProfile();
+      fetchProfile(); // Fetch profile data when ID is available
     }
   }, [id]);
 
@@ -45,28 +45,28 @@ const EditProfile = () => {
     const file = event.target.files[0];
     setProfile((prevProfile) => ({
       ...prevProfile,
-      image: file,
+      image: file, // Update state with selected file
     }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('bio', profile.bio);
-    if (profile.image) { // Check if image is selected
-      formData.append('image', profile.image);
+    formData.append('bio', profile.bio); // Append bio to FormData
+    if (profile.image) {
+      formData.append('image', profile.image); // Append image if available
     }
 
     try {
       await axios.put(`/profiles/${id}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data', // Specify the content type for file upload
         },
       });
-      history.push(`/profiles/${id}`);
+      history.push(`/profiles/${id}`); // Navigate to the profile page upon success
     } catch (error) {
       console.error('Error updating profile', error);
-      setError('Failed to update profile.');
+      setError('Failed to update profile.'); // Set error message if update fails
     }
   };
 
@@ -75,9 +75,8 @@ const EditProfile = () => {
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
           <h2>Edit Profile</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
+          {error && <Alert variant="danger">{error}</Alert>} {/* Display error if any */}
           <Form onSubmit={handleSubmit}>
-
             <Form.Group controlId="bio">
               <Form.Label>Bio</Form.Label>
               <Form.Control

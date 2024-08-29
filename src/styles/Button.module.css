@@ -1,69 +1,63 @@
 .Button {
-    font-size: 0.8rem;
-    align-self: center;
-    border-radius: 100px;
-    border-color: transparent;
-    padding: 4px 10px;
-    margin-left: 2px;
-    margin-right: 2px;
-    min-width: 75px;
-  }
-  
-  .Button:hover {
-    opacity: 0.8;
-    border-color: transparent;
-    cursor: pointer;
-  }
-  
-  .Button:hover:active {
-    background-color: #2142b2 !important;
-  }
-  
-  .Button:active {
-    background-color: #2142b2 !important;
-  }
-  
-  .Button:focus {
-    background-color: #2142b2;
-  }
-  
-  .Wide {
-    padding: 10px 50px;
-    width: 100%;
-  }
-  
-  .Blue,
-  .BlueOutline:hover,
-  .Bright:hover {
-    background-color: #2142b2;
-    color: #ffffff;
-  }
-  
-  .BlueOutline,
-  .Blue:hover {
-    /* border: 1px solid #2142b2; */
-    background-color: #ffffff;
-    color: #2142b2;
-  }
-  
-  .Black,
-  .BlackOutline:hover {
-    /* background-color: #242a3d;
-    color: white; */
-    background-color: #242a3d;
-    color: aliceblue;
-  }
-  
-  .Black:hover,
-  .BlackOutline {
-    /* background-color: #dadadf;
-    color: #242a3d;
-    border-color: #242a3d; */
-    background-color: aliceblue;
-    color: #242a3d;
-  }
-  
-  .Bright {
-    background-color: #2ed9ff;
-    color: #2142b2;
-  }
+  font-size: 0.8rem; /* Sets the font size of the button text */
+  align-self: center; /* Centers the button within its container if it's part of a flex container */
+  border-radius: 100px; /* Makes the button's corners fully rounded */
+  border-color: transparent; /* Hides the border color */
+  padding: 4px 10px; /* Sets padding inside the button */
+  margin-left: 2px; /* Adds space to the left of the button */
+  margin-right: 2px; /* Adds space to the right of the button */
+  min-width: 75px; /* Ensures the button has a minimum width */
+}
+
+.Button:hover {
+  opacity: 0.8; /* Makes the button slightly transparent when hovered */
+  border-color: transparent; /* Keeps the border color hidden on hover */
+  cursor: pointer; /* Changes the cursor to a pointer to indicate a clickable element */
+}
+
+.Button:hover:active {
+  background-color: #2142b2 !important; /* Changes the background color when the button is pressed and hovered */
+}
+
+.Button:active {
+  background-color: #2142b2 !important; /* Changes the background color when the button is pressed */
+}
+
+.Button:focus {
+  background-color: #2142b2; /* Changes the background color when the button is focused (e.g., clicked or tabbed to) */
+}
+
+.Wide {
+  padding: 10px 50px; /* Adds extra padding for a wider button */
+  width: 100%; /* Makes the button stretch to full width of its container */
+}
+
+.Blue,
+.BlueOutline:hover,
+.Bright:hover {
+  background-color: #2142b2; /* Sets the background color to a dark blue */
+  color: #ffffff; /* Sets the text color to white */
+}
+
+.BlueOutline,
+.Blue:hover {
+  background-color: #ffffff; /* Sets the background color to white */
+  color: #2142b2; /* Sets the text color to dark blue */
+}
+
+.Black,
+.BlackOutline:hover {
+  background-color: #242a3d; /* Sets the background color to a dark grayish-blue */
+  color: aliceblue; /* Sets the text color to a very light blue */
+}
+
+.Black:hover,
+.BlackOutline {
+  background-color: aliceblue; /* Sets the background color to a very light blue */
+  color: #242a3d; /* Sets the text color to dark grayish-blue */
+}
+
+.Bright {
+  background-color: #2ed9ff; /* Sets the background color to a bright cyan */
+  color: #2142b2; /* Sets the text color to dark blue */
+}

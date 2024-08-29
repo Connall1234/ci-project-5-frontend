@@ -1,46 +1,47 @@
-  .Row {
-      height: 100%;
-    }
-  
-  .FormCol {
-    background-color: #f8f9fa;
-    border-right: 1px solid #dee2e6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .Header {
-    font-size: 2rem;
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  .Input {
-    border-radius: 0.25rem;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,.075);
-    margin-bottom: 1rem;
-  }
-  
-  .Link {
-    text-align: center;
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .Link span {
-    font-weight: bold;
-  }
-  
+/* Styles for the Sign-Up page */
+
+.Row {
+  height: 100%; /* Ensures the row takes up the full height of its container */
+}
+
+.FormCol {
+  background-color: #f8f9fa; /* Sets a light gray background for the form column */
+  border-right: 1px solid #dee2e6; /* Adds a subtle right border to the form column */
+  display: flex; /* Uses Flexbox for layout */
+  align-items: center; /* Vertically centers content within the form column */
+  justify-content: center; /* Horizontally centers content within the form column */
+}
+
+.Header {
+  font-size: 2rem; /* Increases the font size for the header */
+  font-weight: 500; /* Applies a medium font weight to the header */
+  margin-bottom: 1.5rem; /* Adds space below the header */
+  text-align: center; /* Centers the header text */
+}
+
+.Input {
+  border-radius: 0.25rem; /* Rounds the corners of input fields slightly */
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.075); /* Adds a subtle inner shadow to input fields */
+  margin-bottom: 1rem; /* Adds space below input fields */
+}
+
+.Link {
+  text-align: center; /* Centers the link text */
+  color: #007bff; /* Sets the link text color to blue */
+  text-decoration: none; /* Removes the underline from links */
+}
+
+.Link span {
+  font-weight: bold; /* Makes the text inside the span bold */
+}
+
+.ImageCol {
+  background: #e9ecef; /* Sets a light gray background for the image column */
+  height: 100%; /* Ensures the image column takes up the full height of its container */
+}
+
+@media (max-width: 767.98px) {
   .ImageCol {
-    background: #e9ecef;
-    height: 100%;
+    display: none; /* Hides the image column on screens smaller than 768px */
   }
-  
-  @media (max-width: 767.98px) {
-    .ImageCol {
-      display: none;
-    }
-  }
-  
+}

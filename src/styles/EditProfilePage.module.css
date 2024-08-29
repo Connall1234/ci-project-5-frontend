@@ -1,53 +1,51 @@
+/* Styles for the profile editing page */
+
 .profile-edit-container {
-    margin-top: 20px;
-  }
-  
-  .profile-edit-container .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .profile-edit-container .form-control {
-    margin-bottom: 10px;
-  }
-  
-  .profile-edit-container .upload-icon {
-    font-size: 24px;
-    cursor: pointer;
-    color: #007bff;
-  }
-  
-  .profile-edit-container .upload-icon:hover {
-    color: #0056b3;
-  }
-  
-  .profile-edit-container .profile-image-preview {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-top: 10px;
-  }
-  
-  .profile-edit-container .save-button {
-    margin-top: 20px;
+  margin-top: 20px; /* Adds space above the profile edit container */
+}
 
-    
-  }
+.profile-edit-container .form-group {
+  margin-bottom: 15px; /* Adds space below each form group within the profile edit container */
+}
 
-  .container {
-    margin-top: 20px;
-  }
-  
-  .form-control {
-    width: 100%;
-  }
-  
-  button {
-    width: 48%;
-  }
-  
-  textarea {
-    resize: none;
-  }
-  
-  
+.profile-edit-container .form-control {
+  margin-bottom: 10px; /* Adds space below each form control within the profile edit container */
+}
+
+.profile-edit-container .upload-icon {
+  font-size: 24px; /* Sets the font size for the upload icon */
+  cursor: pointer; /* Changes the cursor to a pointer to indicate it's clickable */
+  color: #007bff; /* Sets the color of the upload icon to a blue shade */
+}
+
+.profile-edit-container .upload-icon:hover {
+  color: #0056b3; /* Changes the color of the upload icon on hover to a darker blue */
+}
+
+.profile-edit-container .profile-image-preview {
+  width: 100px; /* Sets the width of the profile image preview */
+  height: 100px; /* Sets the height of the profile image preview */
+  object-fit: cover; /* Ensures the image covers the entire area without distortion */
+  border-radius: 50%; /* Makes the profile image preview circular */
+  margin-top: 10px; /* Adds space above the profile image preview */
+}
+
+.profile-edit-container .save-button {
+  margin-top: 20px; /* Adds space above the save button */
+}
+
+.container {
+  margin-top: 20px; /* Adds space above the container (could be a general container for various pages) */
+}
+
+.form-control {
+  width: 100%; /* Ensures form controls take the full width of their container */
+}
+
+button {
+  width: 48%; /* Sets the width of buttons to 48% of their container's width, making them almost full width but with some margin */
+}
+
+textarea {
+  resize: none; /* Prevents resizing of textareas */
+}

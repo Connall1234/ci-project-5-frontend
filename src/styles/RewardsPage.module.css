@@ -1,40 +1,40 @@
+/* Styles for the rewards page */
+
 .rewards-page {
-  margin-top: 20px;
+  margin-top: 20px; /* Adds margin above the entire rewards page for spacing */
 }
 
 .reward-card {
-  border: 1px solid #ddd;
-  cursor: pointer;
-  transition: transform 0.2s;
-  border-radius: 15px; 
-  overflow: hidden; 
-  width: 100%; 
-  height: 100%
+  border: 1px solid #ddd; /* Adds a light gray border around each reward card */
+  cursor: pointer; /* Changes the cursor to a pointer to indicate the card is clickable */
+  transition: transform 0.2s; /* Adds a smooth transition effect for scaling transformations */
+  border-radius: 15px; /* Rounds the corners of the reward card */
+  overflow: hidden; /* Ensures that any content extending beyond the card is clipped */
+  width: 100%; /* Makes the card take up the full width of its container */
+  height: 100%; /* Makes the card take up the full height of its container */
 }
 
 .reward-card.locked {
-  color: white;
-  background-color: lightgrey;
+  color: white; /* Sets the text color to white for locked reward cards */
+  background-color: lightgrey; /* Sets a light gray background for locked reward cards */
 }
 
 .reward-card.unlocked {
-  color: white;
+  color: white; /* Sets the text color to white for unlocked reward cards */
 }
 
 .reward-card.highlighted {
-  transform: scale(1.1);
+  transform: scale(1.1); /* Scales up the card by 10% when highlighted */
 }
 
 .reward-card .locked {
-  color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
+  color: white; /* Sets the text color to white for elements with the class 'locked' inside the card */
+  font-size: 1.2rem; /* Increases the font size of the locked text */
+  font-weight: bold; /* Makes the locked text bold */
 }
 
 .reward-card .unlocked {
-  color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
+  color: white; /* Sets the text color to white for elements with the class 'unlocked' inside the card */
+  font-size: 1.2rem; /* Increases the font size of the unlocked text */
+  font-weight: bold; /* Makes the unlocked text bold */
 }
-
-

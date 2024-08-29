@@ -2,6 +2,8 @@ import React from "react";
 import { Container } from "react-bootstrap";
 
 const About = () => {
+  // This component represents the "About Us" page for the OnTrack app.
+  // It provides a brief description of the app's features and goals.
   return (
     <Container>
       <h1>About Us</h1>

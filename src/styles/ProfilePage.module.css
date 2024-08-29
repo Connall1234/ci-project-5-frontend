@@ -1,79 +1,79 @@
-/* ProfilePage.module.css */
+/* Styles for the profile page */
 
 .profile-page {
-    padding: 2rem;
-  }
-  
-  .profile-image-container {
-    position: relative;
-  }
-  
-  .profile-image {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin: 1rem auto;
-  }
-  
-  .upload-icon {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background: white;
-    border: 2px solid #007bff;
-    border-radius: 50%;
-    padding: 0.5rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-  }
-  
-  .upload-icon i {
-    color: #007bff;
-    font-size: 20px;
-  }
-  
-  .upload-icon:hover {
-    background: #e9ecef;
-  }
-  
+  padding: 2rem; /* Adds padding around the entire profile page for spacing */
+}
+
+.profile-image-container {
+  position: relative; /* Allows positioning of child elements relative to this container */
+}
+
+.profile-image {
+  width: 150px; /* Sets the width of the profile image */
+  height: 150px; /* Sets the height of the profile image */
+  object-fit: cover; /* Ensures the image covers the container without distortion */
+  border-radius: 50%; /* Makes the image circular */
+  margin: 1rem auto; /* Centers the image horizontally and adds vertical margin */
+}
+
+.upload-icon {
+  position: absolute; /* Positions the icon absolutely within the profile image container */
+  bottom: 0; /* Aligns the icon to the bottom of the container */
+  right: 0; /* Aligns the icon to the right of the container */
+  background: white; /* Sets the background color of the icon */
+  border: 2px solid #007bff; /* Adds a blue border around the icon */
+  border-radius: 50%; /* Makes the icon circular */
+  padding: 0.5rem; /* Adds padding inside the icon */
+  cursor: pointer; /* Changes the cursor to a pointer when hovering over the icon */
+  display: flex; /* Uses flexbox to center the icon contents */
+  justify-content: center; /* Centers the icon horizontally */
+  align-items: center; /* Centers the icon vertically */
+  width: 40px; /* Sets the width of the icon */
+  height: 40px; /* Sets the height of the icon */
+}
+
+.upload-icon i {
+  color: #007bff; /* Sets the color of the icon to blue */
+  font-size: 20px; /* Sets the font size of the icon */
+}
+
+.upload-icon:hover {
+  background: #e9ecef; /* Changes the background color on hover */
+}
+
+.profile-name {
+  font-size: 1.5rem; /* Sets the font size for the profile name */
+  margin-bottom: 0.5rem; /* Adds margin below the profile name */
+}
+
+.profile-stats {
+  font-size: 1rem; /* Sets the font size for the profile statistics */
+  margin-bottom: 1rem; /* Adds margin below the profile statistics */
+}
+
+/* Responsive Styles */
+
+@media (max-width: 768px) {
   .profile-name {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.25rem; /* Reduces the font size of the profile name on smaller screens */
   }
-  
+
   .profile-stats {
-    font-size: 1rem;
-    margin-bottom: 1rem;
+    font-size: 0.9rem; /* Reduces the font size of the profile statistics on smaller screens */
   }
-  
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    .profile-name {
-      font-size: 1.25rem;
-    }
-  
-    .profile-stats {
-      font-size: 0.9rem;
-    }
+}
+
+@media (max-width: 576px) {
+  .profile-image {
+    width: 120px; /* Reduces the width of the profile image on very small screens */
+    height: 120px; /* Reduces the height of the profile image on very small screens */
   }
-  
-  @media (max-width: 576px) {
-    .profile-image {
-      width: 120px;
-      height: 120px;
-    }
-  
-    .profile-name {
-      font-size: 1.1rem;
-    }
-  
-    .profile-stats {
-      font-size: 0.85rem;
-    }
+
+  .profile-name {
+    font-size: 1.1rem; /* Further reduces the font size of the profile name on very small screens */
   }
-  
+
+  .profile-stats {
+    font-size: 0.85rem; /* Further reduces the font size of the profile statistics on very small screens */
+  }
+}

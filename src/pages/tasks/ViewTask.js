@@ -7,25 +7,42 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import moment from "moment";
 
+// Define mappings for priority and category codes to their full labels
+const PRIORITY_LABELS = {
+  L: "Low",
+  M: "Medium",
+  H: "High",
+};
+
+const CATEGORY_LABELS = {
+  W: "Work",
+  P: "Personal",
+  O: "Other",
+};
+
 function ViewTask() {
-  const [task, setTask] = useState(null);
-  const [errors, setErrors] = useState({});
-  const { id } = useParams();
+  const [task, setTask] = useState(null); // State to store the fetched task data
+  const [errors, setErrors] = useState({}); // State to store any errors encountered during data fetching
+  const { id } = useParams(); // Extract task ID from URL parameters
 
   useEffect(() => {
     const fetchTask = async () => {
       try {
         const { data } = await axiosReq.get(`/tasks/${id}`);
-        setTask(data);
+        setTask(data); // Store the fetched task data in state
       } catch (err) {
-        console.log(err);
-        setErrors(prevErrors => ({ ...prevErrors, fetch: "Failed to fetch task" }));
+        console.log(err); // Log the error for debugging
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          fetch: "Failed to fetch task", // Set an error message if data fetching fails
+        }));
       }
     };
     fetchTask();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  // Show a loading message while the task data is being fetched
   if (!task) return <div>Loading...</div>;
 
   return (
@@ -49,11 +66,25 @@ function ViewTask() {
         </Form.Group>
         {errors?.start_date && <Alert variant="warning">{errors.start_date}</Alert>}
 
-        {/* <Form.Group>
-          <Form.Label>End Date</Form.Label>
-          <Form.Control type="text" value={moment(task.end_date).format("YYYY-MM-DD")} readOnly />
+        <Form.Group>
+          <Form.Label>Priority</Form.Label>
+          <Form.Control
+            type="text"
+            value={PRIORITY_LABELS[task.priority] || task.priority}
+            readOnly
+          />
         </Form.Group>
-        {errors?.end_date && <Alert variant="warning">{errors.end_date}</Alert>} */}
+        {errors?.priority && <Alert variant="warning">{errors.priority}</Alert>}
+
+        <Form.Group>
+          <Form.Label>Category</Form.Label>
+          <Form.Control
+            type="text"
+            value={CATEGORY_LABELS[task.category] || task.category}
+            readOnly
+          />
+        </Form.Group>
+        {errors?.category && <Alert variant="warning">{errors.category}</Alert>}
 
         <Button onClick={() => window.history.back()}>Back</Button>
       </Form>
@@ -62,6 +93,3 @@ function ViewTask() {
 }
 
 export default ViewTask;
-
-// had this in jsonpack     "date-fns": "^2.16.1",
-
