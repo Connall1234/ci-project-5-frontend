@@ -58,7 +58,7 @@ const EditProfile = () => {
     }
 
     try {
-      await axios.put(`/profiles/${id}`, formData, {
+      await axios.put(`/profiles/${id}/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // Specify the content type for file upload
         },

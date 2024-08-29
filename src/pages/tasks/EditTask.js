@@ -114,7 +114,7 @@ function EditTask() {
     formData.append("category", category);
 
     try {
-      await axiosReq.put(`/tasks/${id}`, formData);
+      await axiosReq.put(`/tasks/${id}/`, formData);
       history.push("/"); // Navigate to the home page after successful update
     } catch (err) {
       console.log(err); // Handle errors during the update
