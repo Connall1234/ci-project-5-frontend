@@ -83,7 +83,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
         completed: !task.completed // Toggle the task's completed status
       };
 
-      const response = await axiosReq.put(`/tasks/${task.id}`, updatedTask); // Update the task in the API
+      const response = await axiosReq.put(`/tasks/${task.id}/`, updatedTask); // Update the task in the API
 
       setTasksState(prevTasks =>
         prevTasks.map(t => (t.id === task.id ? response.data : t))
