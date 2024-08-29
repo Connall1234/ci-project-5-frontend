@@ -22,6 +22,8 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
 
   // useEffect hook to fetch tasks for the selected day when the component mounts or when the date changes
   useEffect(() => {
+    let isMounted = true; // Flag to check if component is still mounted
+
     const fetchTasksForDay = async () => {
       setLoading(true);
       try {
@@ -29,15 +31,24 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
         const tasksForDay = response.data.tasks.filter(task => 
           format(new Date(task.start_date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
         ); // Filter tasks to only include those matching the selected day
-        setTasksState(tasksForDay); // Update state with the tasks for the day
+
+        if (isMounted) {
+          setTasksState(tasksForDay); // Update state with the tasks for the day
+        }
       } catch (error) {
         console.error('Failed to fetch tasks for day', error);
       } finally {
-        setLoading(false); // Set loading to false after data is fetched
+        if (isMounted) {
+          setLoading(false); // Set loading to false after data is fetched
+        }
       }
     };
 
     fetchTasksForDay();
+
+    return () => {
+      isMounted = false; // Cleanup function to set flag when component unmounts
+    };
   }, [date]);
 
   // Function to handle adding a new task, navigates to task creation page
@@ -68,6 +79,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
       setTaskToDelete(null); // Reset the taskToDelete state
       window.location.reload(); // Reload the page to reflect changes
     } catch (err) {
+      console.error('Failed to delete task', err);
     } finally {
       setTaskToDelete(null); // Ensure the state is reset
     }
