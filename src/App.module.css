@@ -1,7 +1,7 @@
 /* General Styles for the Application */
 
 .App {
-  font-family: "DM Sans", sans-serif; /* Sets a clean, modern font for the entire app */
+  font-family: "Poppins", sans-serif; /* Sets a clean, modern font for the entire app */
   background-color: #f8f8f8; /* Provides a light gray background color for the app */
   min-height: 100vh; /* Ensures the app takes up at least the full height of the viewport */
 }

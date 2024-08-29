@@ -3,6 +3,7 @@
 .dayView {
   padding: 20px; /* Adds padding inside the day view container */
   position: relative; /* Allows positioning of child elements absolutely relative to this container */
+  font-family: 'Poppins', sans-serif;;
 }
 
 .tasks {

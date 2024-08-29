@@ -1,13 +1,16 @@
 import React from "react";
 import { Container } from "react-bootstrap";
+import styles from "../../styles/About.module.css"; // Import the CSS module
 
 const About = () => {
   // This component represents the "About Us" page for the OnTrack app.
   // It provides a brief description of the app's features and goals.
   return (
-    <Container>
-      <h1>About Us</h1>
-      <p>
+    <Container className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>About Us</h1>
+      </div>
+      <p className={styles.description}>
         Welcome to OnTrack, your ultimate companion for staying organized and
         productive. Our app allows you to easily manage your tasks with features
         to edit, delete, and view your to-do list. Track your progress through

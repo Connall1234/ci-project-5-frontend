@@ -1,3 +1,6 @@
+/* bUTTON.module.css */
+
+
 .Button {
   font-size: 0.8rem; /* Sets the font size of the button text */
   align-self: center; /* Centers the button within its container if it's part of a flex container */

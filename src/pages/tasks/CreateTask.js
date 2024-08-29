@@ -96,7 +96,6 @@ function CreateTask() {
       await axiosReq.post("/tasks/", formData);
       history.push("/"); // Redirect to homepage upon success
     } catch (err) {
-      console.log(err);
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }

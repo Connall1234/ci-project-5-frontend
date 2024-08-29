@@ -9,6 +9,7 @@
 
 .NavLink {
   padding: 5px; /* Adds padding around navigation links for spacing */
+  text-decoration: none; /* Remove underline from links */
 }
 
 /* Styles for active navigation links */
