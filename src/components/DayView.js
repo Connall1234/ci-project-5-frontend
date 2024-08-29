@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import { axiosReq } from '../api/axiosDefaults';
@@ -6,7 +6,7 @@ import { Popover, OverlayTrigger, Button, Fade } from 'react-bootstrap';
 import styles from '../styles/DayView.module.css';
 
 // DayView component handles task display, creation, editing, completion, and deletion for a selected day.
-const DayView = ({ date, tasks, onTaskUpdate }) => {
+const DayView = ({ date }) => {
   const history = useHistory(); // Hook to programmatically navigate to different routes
   const [tasksState, setTasksState] = useState([]); // State to manage the tasks for the selected day
   const [taskToDelete, setTaskToDelete] = useState(null); // State to track the task that the user wants to delete
@@ -15,6 +15,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
   const [popoverMessage, setPopoverMessage] = useState(''); // State to hold the popover message content
   const [popoverColor, setPopoverColor] = useState('success'); // State to control the color of the popover message (success or error)
   const [loading, setLoading] = useState(true); // State to indicate if the tasks are still loading
+  const isMounted = useRef(true); // Ref to track if the component is mounted
 
   // Format the date for display and task creation
   const formattedDate = format(date, 'MMMM d, yyyy'); // e.g., August 29, 2024
@@ -22,7 +23,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
 
   // useEffect hook to fetch tasks for the selected day when the component mounts or when the date changes
   useEffect(() => {
-    let isMounted = true; // Flag to check if component is still mounted
+    isMounted.current = true; // Set mounted flag to true when component mounts
 
     const fetchTasksForDay = async () => {
       setLoading(true);
@@ -32,13 +33,13 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
           format(new Date(task.start_date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
         ); // Filter tasks to only include those matching the selected day
 
-        if (isMounted) {
+        if (isMounted.current) {
           setTasksState(tasksForDay); // Update state with the tasks for the day
         }
       } catch (error) {
         console.error('Failed to fetch tasks for day', error);
       } finally {
-        if (isMounted) {
+        if (isMounted.current) {
           setLoading(false); // Set loading to false after data is fetched
         }
       }
@@ -47,7 +48,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
     fetchTasksForDay();
 
     return () => {
-      isMounted = false; // Cleanup function to set flag when component unmounts
+      isMounted.current = false; // Cleanup function to set flag when component unmounts
     };
   }, [date]);
 
@@ -87,9 +88,11 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
 
   // Function to mark a task as completed/incomplete
   const handleCompleteTask = async (task) => {
-    try {
-      setUpdatingTask(task); // Set the task being updated (to prevent multiple updates at the same time)
+    if (updatingTask) return; // Prevent multiple updates
 
+    setUpdatingTask(task); // Set the task being updated (to prevent multiple updates at the same time)
+
+    try {
       const updatedTask = {
         ...task,
         completed: !task.completed // Toggle the task's completed status
@@ -97,15 +100,23 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
 
       const response = await axiosReq.put(`/tasks/${task.id}/`, updatedTask); // Update the task in the API
 
-      setTasksState(prevTasks =>
-        prevTasks.map(t => (t.id === task.id ? response.data : t))
-      ); // Update the state with the updated task
+      if (response.status === 200) {
+        if (isMounted.current) {
+          setTasksState(prevTasks =>
+            prevTasks.map(t => (t.id === task.id ? response.data : t))
+          ); // Update the state with the updated task
 
-      // Show success/failure message via a popover
-      setPopoverMessage(updatedTask.completed ? 'Task complete' : 'Task incomplete');
-      setPopoverColor(updatedTask.completed ? 'success' : 'danger');
-      setShowPopover(true);
-      setTimeout(() => setShowPopover(false), 2000); // Hide the popover after 2 seconds
+          // Show success/failure message via a popover
+          setPopoverMessage(updatedTask.completed ? 'Task complete' : 'Task incomplete');
+          setPopoverColor(updatedTask.completed ? 'success' : 'danger');
+          setShowPopover(true);
+          setTimeout(() => {
+            if (isMounted.current) {
+              setShowPopover(false); // Hide the popover after 2 seconds if still mounted
+            }
+          }, 2000); // Hide the popover after 2 seconds
+        }
+      }
     } catch (err) {
       console.error('Failed to update task', err);
     } finally {
@@ -159,10 +170,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
                 <input
                   type="checkbox"
                   checked={task.completed}
-                  onChange={() => {
-                    if (updatingTask) return; // Prevent updates if another task is being updated
-                    handleCompleteTask(task); // Mark the task as complete/incomplete
-                  }}
+                  onChange={() => handleCompleteTask(task)} // Mark the task as complete/incomplete
                   disabled={updatingTask === task} // Disable checkbox if the task is currently being updated
                 />
               </div>
@@ -177,7 +185,7 @@ const DayView = ({ date, tasks, onTaskUpdate }) => {
     <div className={styles.dayView}>
       <h2>{formattedDate}</h2>
       {renderTasks()} {/* Render the task list */}
-      <button onClick={handleAddTask}>Add Task</button> {/* Button to add a new task */}
+      <button className={styles.button} onClick={handleAddTask}>Add Task</button> {/* Button to add a new task */}
 
       {/* Modal for confirming task deletion */}
       {taskToDelete && (

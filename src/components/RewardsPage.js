@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from "../styles/RewardsPage.module.css"; // Import CSS module for custom styles
+import styles from "../styles/RewardsPage.module.css"; 
 
 const RewardsPage = ({ match }) => {
   const { id } = match.params; // Extract the user ID from the URL parameters
@@ -10,10 +10,12 @@ const RewardsPage = ({ match }) => {
   const [error, setError] = useState(null); // State to store error messages
   const [highlightedReward, setHighlightedReward] = useState(null); // State to track which reward is highlighted (clicked)
   const [overdueCount, setOverdueCount] = useState(0); // State to store the number of overdue tasks
+  const [loading, setLoading] = useState(true); // State to track loading status
 
   // Fetch tasks data from the API when the component mounts or the `id` changes
   useEffect(() => {
     const fetchTasks = async () => {
+      setLoading(true); // Set loading to true when starting to fetch data
       try {
         // API call to fetch tasks for the current user
         const response = await axios.get(`https://project-5-backend-api-connall-3eb143768597.herokuapp.com/tasks/?owner=${id}`);
@@ -22,6 +24,8 @@ const RewardsPage = ({ match }) => {
       } catch (error) {
         console.error('Error fetching tasks data', error); // Log errors if the API call fails
         setError('Failed to load tasks data.'); // Set an error message in the state
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched or an error occurs
       }
     };
 
@@ -33,6 +37,16 @@ const RewardsPage = ({ match }) => {
   // Handle any errors that occurred during the data fetch
   if (error) {
     return <Alert variant="danger" className="mt-4">{error}</Alert>; // Display an error alert
+  }
+
+  // If loading, show the loading spinner
+  if (loading) {
+    return (
+      <div className={styles.LoadingContainer}>
+        <div className={styles.Spinner}></div>
+        <p className={styles.LoadingText}>Loading...</p>
+      </div>
+    );
   }
 
   // Calculate the number of completed tasks

@@ -111,6 +111,31 @@
   border: 1px solid black; /* Adds a black border around the modal */
 }
 
+.button {
+  background-color: #4CAF50; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 10px 20px; /* Some padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Align with other elements */
+  font-size: 16px; /* Increase font size */
+  margin: 4px 2px; /* Margins */
+  cursor: pointer; /* Pointer cursor on hover */
+  border-radius: 12px; /* Rounded edges */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.button:hover {
+  background-color: #45a049; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.button:active {
+  background-color: #397d3a; /* Even darker green when clicked */
+}
+
+
 @media (max-width: 480px) {
   .taskBar i {
     padding: 0; /* Removes padding from icons inside the task bar */

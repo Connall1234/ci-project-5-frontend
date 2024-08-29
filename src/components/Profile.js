@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Alert, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../styles/ProfilePage.module.css"; // Import the CSS module for styling
+import "../styles/ProfilePage.module.css"; 
 
 const ProfilePage = (props) => {
   const { id } = props.match.params; // Extract the profile ID from the URL parameters
@@ -70,7 +70,7 @@ const ProfilePage = (props) => {
               <Button variant="primary" href={`/profiles/${id}/edit`} className="mr-2">Edit Profile</Button>
               {/* Button to navigate to the user's Rewards page */}
               <Link to={`/profiles/${id}/rewards`}>
-                <Button variant="warning" style={{ color: 'white', backgroundColor: 'gold', borderColor: 'gold' }}>Your Rewards</Button>
+                <Button variant="warning" style={{ color: 'white', backgroundColor: 'gold', borderColor: 'gold' }}>Rewards</Button>
               </Link>
             </Card.Body>
           </Card>
