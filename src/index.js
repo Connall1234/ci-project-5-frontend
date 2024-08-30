@@ -9,15 +9,13 @@ import { OverdueTasksProvider } from './contexts/OverdueTasksContext';
 
 
 ReactDOM.render(
-  <React.StrictMode>
     <Router>
       <CurrentUserProvider>
         <OverdueTasksProvider>
         <App />
         </OverdueTasksProvider>
       </CurrentUserProvider>
-    </Router>
-  </React.StrictMode>,
+    </Router>,
   document.getElementById('root')
 );
 
