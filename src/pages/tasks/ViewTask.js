@@ -72,6 +72,7 @@ function ViewTask() {
             type="text"
             value={PRIORITY_LABELS[task.priority] || task.priority}
             readOnly
+            
           />
         </Form.Group>
         {errors?.priority && <Alert variant="warning">{errors.priority}</Alert>}

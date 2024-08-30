@@ -163,13 +163,16 @@ function EditTask() {
 
         <Form.Group>
           <Form.Label>Start Date</Form.Label>
+          <div>
           {!loading && (
             <DatePicker
               selected={start_date}
               onChange={handleDateChange}
               dateFormat="yyyy-MM-dd"
+              className="form-control"
             />
           )}
+          </div>
           {isPastDate && (
             <Alert variant="warning" className="mt-2">
               This is a task in the past. Are you sure you want to update it?
