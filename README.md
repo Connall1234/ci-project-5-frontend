@@ -555,7 +555,7 @@ To ensure that the task editing functionality works as expected, including valid
 
 **Image**:
 
-![Test Edit Task Past Date](public/assets/images/Edittask/testing_edit_task_past_task.jpg)
+![Test Edit Task Past Date](public/assets/images/Testing/Edittask/testing_edit_task_past_task.jpg)
 
 ### Testing Scenario: Deleting a Task
 
@@ -749,7 +749,7 @@ To ensure that unauthorized users cannot access or manipulate tasks or profiles 
 
 **Image**:
 
-![Test Can't Access Others Profile](public/assets/images/Profile/testing_profile_can't_access_other_profiles.jpg)
+![Test Can't Access Others Profile](public/assets/images/Testing/Profile/testing_profile_can't_access_other_profiles.jpg)
 
 #### **Test Case 3: Unauthorized Access to Edit Profile**
 
