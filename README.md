@@ -245,9 +245,8 @@ We went with a light design with some other bright colors splashed in for this p
 - **User Story 1: User Sign-Up Form**
   - **Priority**: High
   - **Acceptance Criteria**:
-    - User can enter a valid email and password.
+    - User can enter a valid username and password.
     - System validates input and shows error messages for invalid inputs.
-    - Confirmation email is sent upon successful sign-up.
   - **Related Sprint**: Sprint 1
   - **Mapping to Goals**: This feature enables users to create accounts, which is critical for user management.
   - **GitHub Issue**: [#15](https://github.com/users/Connall1234/projects/4/views/1?pane=issue&itemId=78156318)
@@ -328,7 +327,7 @@ We went with a light design with some other bright colors splashed in for this p
 - **User Story 1: View Profile**
   - **Priority**: High
   - **Acceptance Criteria**:
-    - User can view their profile information including name, email, and profile picture.
+    - User can view their profile information including username,, and profile picture.
     - User can view their recent activities and any relevant statistics.
     - Profile page is accessible from the user’s account menu.
   - **Related Sprint**: Sprint 3
@@ -338,7 +337,7 @@ We went with a light design with some other bright colors splashed in for this p
 - **User Story 2: Edit Profile**
   - **Priority**: High
   - **Acceptance Criteria**:
-    - User can update their profile information including name, email, and profile picture.
+    - User can update their profile information including username, and profile picture.
     - System validates input and shows error messages for invalid or incomplete details.
     - Changes are saved and updated in the user's profile.
   - **Related Sprint**: Sprint 3
@@ -348,8 +347,8 @@ We went with a light design with some other bright colors splashed in for this p
 - **User Story 3: View Rewards**
   - **Priority**: Medium
   - **Acceptance Criteria**:
-    - User can view their rewards, including earned points, badges, or other incentives.
-    - Rewards page displays a list of rewards with details such as description and date earned.
+    - User can view their rewards.
+    - Rewards page displays a list of rewards..
     - Rewards page is accessible from the user’s account menu.
   - **Related Sprint**: Sprint 3
   - **Mapping to Goals**: This feature allows users to track their achievements and rewards, motivating continued engagement and usage of the application.
@@ -373,7 +372,7 @@ We went with a light design with some other bright colors splashed in for this p
 
 - **Scenario**: Sam has just discovered the application and is exploring its features for the first time.
 - **Experience**:
-  - **Sign-Up Form**: Sam uses the sign-up form to create a new account. The process is smooth, and Sam receives a confirmation email upon successful registration.
+  - **Sign-Up Form**: Sam uses the sign-up form to create a new account.
   - **Sign-In Form**: Sam logs in for the first time using the credentials from the sign-up process.
   - **Initial Impressions**: Sam finds the interface user-friendly and appreciates the ease of account creation.
 - **Desired Features**:
@@ -409,7 +408,7 @@ We went with a light design with some other bright colors splashed in for this p
 
 - **Scenario**: Alice has just discovered the application and is exploring its features for the first time.
 - **Experience**:
-  - **Sign-Up Form**: Alice uses the sign-up form to create a new account. The process is clear, and Alice receives a confirmation email after registration.
+  - **Sign-Up Form**: Alice uses the sign-up form to create a new account.
   - **Sign-In Form**: Alice logs in for the first time using the newly created credentials.
   - **Initial Impressions**: Alice is impressed with the ease of registration and the application's overall layout.
 - **Desired Features**:
@@ -462,7 +461,7 @@ To ensure that the task creation functionality works as expected, including vali
 
 **Example**:
 - **Invalid Input**: Leaving the title field empty.
-- **Expected Behavior**: An error message such as "Title is required" should appear, and the task should not be created.
+- **Expected Behavior**: An error message such as  "this field may not be blank" should appear, and the task should not be created.
 
 **Image**:
 
@@ -483,7 +482,7 @@ To ensure that the task creation functionality works as expected, including vali
 - The task creation should be allowed with a warning or confirmation prompt, informing the user of the potential issue with a past date.
 
 **Example**:
-- **Past Date Input**: Setting the start date to "2023-01-01" (a date in the past).
+- **Past Date Input**: Setting the start date to "2024-08-28" (a date in the past).
 - **Expected Behavior**: A notification should appear, such as "This is a task in the past. Are you sure you want to update it?".
 
 **Image**:
@@ -513,7 +512,7 @@ To ensure that the task editing functionality works as expected, including valid
 
 **Example**:
 - **Invalid Input**: Leaving the title field empty.
-- **Expected Behavior**: An error message such as "Title is required" should appear, and the task should not be updated.
+- **Expected Behavior**: An error message such as  "this field may not be blank" should appear, and the task should not be updated.
 
 **Image**:
 
